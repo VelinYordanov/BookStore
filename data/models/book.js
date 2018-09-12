@@ -1,7 +1,8 @@
 class Book {
-    constructor(title,description,author,isbn,cover) {
+    constructor(title,description,price,author,isbn,cover) {
         this.title = title;
         this.description = description;
+        this.price = price;
         this.author = author;
         this.isbn = isbn;
         this.cover = cover;
@@ -15,6 +16,18 @@ class Book {
 
     set title(value) {
         this._title = DataValidator(value,1,100);
+    }
+
+    get price() {
+        return this._price;
+    }
+
+    set price(value) {
+        if(!isNaN(parseFloat(value)) && isFinite(value)) {
+            this._price - value;
+        }
+
+        throw new Error("Price must be a number");
     }
 
     get description() {
@@ -43,10 +56,6 @@ class Book {
 
     get purchasedBy() {
         return this._purchasedBy;
-    }
-
-    get rating() {
-        return this.favorittedBy.length;
     }
 
     get isbn() {
