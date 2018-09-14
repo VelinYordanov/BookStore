@@ -1,27 +1,29 @@
+var ObjectId = require('mongodb').ObjectId;
+
 module.exports = class Data {
     constructor(collection) {
         this.collection = collection;
     }
 
     add(value) {
-        this.collection.insertOne(value);
+        return this.collection.insertOne(value);
     }
 
     find(id) {
-        this.collection.findOne({ _id: id });
+        return this.collection.findOne({ _id: ObjectId(id) });
     }
 
     getMany(skip, take) {
-        this.collection.find().skip(skip).limit(take).toArray();
+        return this.collection.find().skip(skip).limit(take).toArray();
     }
 
     delete(id) {
-        this.collection.deleteOne({ _id: id });
+        return this.collection.deleteOne({ _id: ObjectId(id) });
     }
 
     update(id, element) {
         this.collection.updateOne(
-            { _id: id },
+            { _id: ObjectId(id) },
             { $set: element }
         )
     }
