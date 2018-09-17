@@ -9,7 +9,7 @@ module.exports = class Data {
         return this.collection.insertOne(value);
     }
 
-    find(id) {
+    get(id) {
         return this.collection.findOne({ _id: ObjectId(id) });
     }
 

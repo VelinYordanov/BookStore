@@ -1,10 +1,11 @@
 async function getData() {
-    let db = await require('./db-provider');
-    let Data = require('./data');
-    let BookData = require('./book-data');
-    let AuthorData = require('./author-data');
+    const db = await require('./db-provider');
+    const Data = require('./data');
+    const BookData = require('./book-data');
+    const AuthorData = require('./author-data');
+    const UserData = require('./user-data');
 
-    let users = new Data(db.collection('users'));
+    let users = new UserData(db.collection('users'));
     let authors = new AuthorData(db.collection('authors'));
     let books = new BookData(db.collection('books'));
     let BookStoreData = require('./book-store-data');

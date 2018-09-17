@@ -1,10 +1,16 @@
 var app = require('express')();
 
-require('./configuration')(app);
 require('./data').then(bookStoreData => {
-    let services = require('./services')(bookStoreData);
+    require('./configuration')(app);
+    const crypto = require('./encryption');
+    const authentication = require('./authentication')(bookStoreData, crypto);
+    let services = require('./services')(bookStoreData, authentication, crypto);
     require('./controllers')(app, services);
 
     app.listen(8080, () => console.log('Started on port 8080'));
 });
+
+
+
+
 
