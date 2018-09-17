@@ -13,5 +13,17 @@ module.exports = function (app, homeService, authentication) {
         failureRedirect: '/login'
     }));
 
+    app.get('/register', (req, res) => {
+        res.render('register');
+    })
 
+    app.post('/register', async (req, res) => {
+        await homeService.registerUserAsync(req.body);
+        res.redirect('/');
+    })
+
+    app.get('/logout', (req, res) => {
+        req.logout();
+        res.redirect('/');
+    })
 }

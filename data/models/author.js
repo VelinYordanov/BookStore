@@ -25,10 +25,6 @@ module.exports = class Author {
         return this._favorittedBy;
     }
 
-    get picture() {
-        return this._picture;
-    }
-
     set picture(value) {
         this._picture = DataValidator.validateFile(value);
     }

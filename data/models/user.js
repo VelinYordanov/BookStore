@@ -1,41 +1,18 @@
 const DataValidator = require('../validator');
 
 module.exports = class User {
-    constructor(userName, salt, password, avatar) {
-        this.userName = userName;
-        this.salt = salt;
-        this.password = password;
-        this.avatar = avatar;
-        this._purchasedBooks = [];
-        this._favoritedBooks = [];  
-        this._favoritedAuthors = [];    
+    constructor(username, password, repeatPassword, crypto) {
+        this.username = DataValidator.validateString(username, 5, 50);
+        this.createPassword(password, repeatPassword, crypto);
+        this.purchasedBooks = [];
+        this.favoritedBooks = [];
+        this.favoritedAuthors = [];
     }
 
-    get userName() {
-        return this._userName;
-    }
-
-    set userName(value) {
-        this._userName = DataValidator.validateString(value,5,50);
-    }
-
-    get purchasedBooks() {
-        return this._purchasedBooks;
-    }
-
-    get favoritedBooks() {
-        return this._favoritedBooks;
-    }
-
-    get favoritedAuthors() {
-        return this._favoritedAuthors;
-    }
-
-    get avatar() {
-        return this._avatar.toString('base64');
-    }
-
-    set avatar(value) {
-        this._avatar = DataValidator.validateFile(value);
+    createPassword(password, repeatPassword, crypto) {
+        if (DataValidator.validateString(password, 5, 50) === repeatPassword) {
+            this.salt = crypto.generateSalt();
+            this.password = crypto.generateHashedPassword(this.salt, password);
+        }
     }
 }

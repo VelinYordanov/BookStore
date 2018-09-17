@@ -9,11 +9,11 @@ module.exports = class Data {
         return this.collection.insertOne(value);
     }
 
-    get(id) {
+    find(id) {
         return this.collection.findOne({ _id: ObjectId(id) });
     }
 
-    getMany(skip, take) {
+    findMany(skip, take) {
         return this.collection.find().skip(skip).limit(take).toArray();
     }
 
@@ -22,7 +22,7 @@ module.exports = class Data {
     }
 
     update(id, element) {
-        this.collection.updateOne(
+        return this.collection.updateOne(
             { _id: ObjectId(id) },
             { $set: element }
         )

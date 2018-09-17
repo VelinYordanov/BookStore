@@ -72,10 +72,6 @@ module.exports = class Book {
         throw new Error("Isbn must be 10 or 13 characters long and be all digits");
     }
 
-    get cover() {
-        return this._cover.toString('base64');
-    }
-
     set cover(value) {
         this._cover = DataValidator.validateFile(value);
     }

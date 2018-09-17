@@ -1,6 +1,6 @@
 var fs = require('fs');
 
-module.exports = (data) => {
+module.exports = (data, crypto) => {
     var services = fs.readdirSync(__dirname).filter(x => x.endsWith('-service.js')).map(x=>'./'+x);
-    return services.map(x => require(x)(data));
+    return services.map(x => require(x)(data, crypto));
 }

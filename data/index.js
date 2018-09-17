@@ -1,6 +1,5 @@
 async function getData() {
     const db = await require('./db-provider');
-    const Data = require('./data');
     const BookData = require('./book-data');
     const AuthorData = require('./author-data');
     const UserData = require('./user-data');

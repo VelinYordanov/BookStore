@@ -1,6 +1,7 @@
-module.exports = class Validator {
+class Validator {
     validateString(value, minLength, maxLength) {
         if(typeof value === 'string') {
+            value = value.trim();
             if(value.length  >= minLength && value.length <= maxLength) {
                 return value;
             }
@@ -17,3 +18,5 @@ module.exports = class Validator {
         throw new Error("Value must be byte array");
     }
 }
+
+module.exports = new Validator();
