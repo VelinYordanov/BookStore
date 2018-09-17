@@ -1,4 +1,6 @@
-class Book {
+const DataValidator = require('../validator');
+
+module.exports = class Book {
     constructor(title,description,price,author,isbn,cover) {
         this.title = title;
         this.description = description;

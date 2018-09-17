@@ -1,4 +1,6 @@
-class Author {
+const DataValidator = require('../validator');
+
+module.exports = class Author {
     constructor(name,bio,picture) {
         this.name = name;
         this.bio = bio;

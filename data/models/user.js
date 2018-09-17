@@ -1,4 +1,6 @@
-class User {
+const DataValidator = require('../validator');
+
+module.exports = class User {
     constructor(userName, salt, password, avatar) {
         this.userName = userName;
         this.salt = salt;

@@ -4,8 +4,8 @@ require('./data').then(bookStoreData => {
     require('./configuration')(app);
     const crypto = require('./encryption');
     const authentication = require('./authentication')(bookStoreData, crypto);
-    let services = require('./services')(bookStoreData, authentication, crypto);
-    require('./controllers')(app, services);
+    let services = require('./services')(bookStoreData, crypto);
+    require('./controllers')(app, services, authentication);
 
     app.listen(8080, () => console.log('Started on port 8080'));
 });
