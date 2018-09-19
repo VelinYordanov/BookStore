@@ -20,4 +20,8 @@ module.exports = class AuthorData extends Data {
             ]
         ).limit(number).toArray();
     }
+
+    searchAuthors(value) {
+        return this.collection.find({ "name": { $regex: `.*${value}.*` } }).toArray();
+    }
 }

@@ -22,4 +22,8 @@ module.exports = class BookData extends Data {
             ]
         ).limit(number).toArray();
     }
+
+    searchBooks(value) {
+        return this.collection.find({ "title": { $regex: `.*${value}.*` } }).toArray();
+    }
 }
