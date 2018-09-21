@@ -27,4 +27,8 @@ module.exports = class Data {
             { $set: element }
         )
     }
+
+    count() {
+        return this.collection.countDocuments({}, {});
+    }
 }

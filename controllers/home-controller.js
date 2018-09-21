@@ -4,7 +4,12 @@ module.exports = function (app, homeService, authentication) {
     });
 
     app.post('/search', async (req, res) => {
-        var booksAndAuthors = await homeService.searchBooksAndAuthors(req.body.search);
+        const { search } = req.body;
+        if (!(search && search.length && (search.length > 3))) {
+            return res.redirect('/');
+        }
+
+        var booksAndAuthors = await homeService.searchBooksAndAuthors(search);
         res.render('search', booksAndAuthors);
     })
 
