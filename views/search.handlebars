@@ -1,0 +1,25 @@
+ {{#if books}}
+<div id='book-results'>
+    {{#each books}}
+    <h1>Found books:</h1>
+        <div class='book'>
+            <h1>{{title}}</h1>
+            <img src="data:image/png;base64, {{cover}}" alt={{title}}>
+            <p>{{description}}</p>
+        </div>
+    {{/each}}
+</div>
+{{/if}}
+
+{{#if authors}}
+<div id='author-results'>
+    <h1>Found authors:</h1>
+    {{#each authors}}
+        <div class='author'>
+            <h1>{{name}}</h1>
+            <img src="data:image/png;base64, {{picture}}" alt={{name}}>
+            <p>{{bio}}</p>
+        </div>
+    {{/each}}
+</div>
+{{/if}}

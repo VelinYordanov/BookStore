@@ -22,7 +22,7 @@ module.exports = class AuthorData extends Data {
     }
 
     searchAuthors(value) {
-        return this.collection.find({ "name": { $regex: `.*${value}.*` } }).toArray();
+        return this.collection.find({ "name": { $regex: `.*${value}.*`, $options : "i" } }).toArray();
     }
 
     deleteAuthorsWithoutBooks() {
