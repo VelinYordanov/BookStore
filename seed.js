@@ -1,6 +1,12 @@
 const ROOT_URL = 'https://www.goodreads.com';
+const urls =
+    [
+        'https://www.goodreads.com/choiceawards/best-fantasy-books-2017',
+        'https://www.goodreads.com/choiceawards/best-horror-books-2017',
+        'https://www.goodreads.com/choiceawards/best-science-fiction-books-2017'
+    ]
 
-async function something() {
+async function seed() {
     const https = require('https');
     const data = await require('./data');
     const Author = require('./data/models/author');
@@ -76,9 +82,13 @@ async function something() {
             return;
         }
 
-        const book = new Book(bookTitle, bookDescription, 30, { id: author._id, name: author.name }, isbn, bookCover);
-        author.books.push(book);
-        await Promise.all([data.authors.update(author._id, author), data.books.add(book)]);
+        try {
+            const book = new Book(bookTitle, bookDescription, 30, { id: author._id, name: author.name }, isbn, bookCover);
+            author.books.push(book);
+            await Promise.all([data.authors.update(author._id, author), data.books.add(book)]);
+        } catch {
+            return;
+        }
     }
 
     async function getAuthor(href) {
@@ -118,16 +128,33 @@ async function something() {
         await Promise.all(bookHrefs.map(x => addBook(x, author)));
     }
 
-    const html = await getContent('https://www.goodreads.com/choiceawards/best-fiction-books-2017');
-    const cheerio = require('cheerio');
-    const $ = cheerio.load(html);
-    const bookHrefs = [];
+    async function start(url) {
+        console.log(`Fetching ${url}`);
+        var html;
+        try {
+            html = await getContent(url);
+        } catch {
+            console.log(`Problem fetching data from ${url}. Retrying...`);
+            start(url);
+            return;
+        }
 
-    $('.pollAnswer__bookLink').each((_, element) => {
-        bookHrefs.push($(element).attr('href'))
-    })
+        const cheerio = require('cheerio');
+        const $ = cheerio.load(html);
+        const bookHrefs = [];
 
-    await Promise.all(bookHrefs.map(getData));
+        $('.pollAnswer__bookLink').each((_, element) => {
+            bookHrefs.push($(element).attr('href'))
+        })
+
+        await Promise.all(bookHrefs.map(getData));
+    }
+
+    for (const url of urls) {
+        await start(url);
+    }
+
+    await data.authors.deleteAuthorsWithoutBooks();
 }
 
-something().then(async _ => await process.exit());
+seed().then(() => process.exit());

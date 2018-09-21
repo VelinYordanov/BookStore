@@ -24,4 +24,9 @@ module.exports = class AuthorData extends Data {
     searchAuthors(value) {
         return this.collection.find({ "name": { $regex: `.*${value}.*` } }).toArray();
     }
+
+    deleteAuthorsWithoutBooks() {
+        console.log('Deleting authors without books');
+        return this.collection.deleteMany({ books: [] });
+    }
 }
