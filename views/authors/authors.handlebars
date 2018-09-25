@@ -1,0 +1,8 @@
+<div id="books">
+    {{#each authors}}
+    <div id="book">
+        <h1><a href="/authors/{{_id}}">{{name}}</a></h1>
+        <img src="data:image/png;base64, {{picture}}" alt={{name}}>
+    </div>
+    {{/each}}
+</div>

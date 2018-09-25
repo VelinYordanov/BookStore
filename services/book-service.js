@@ -12,8 +12,14 @@ module.exports = (bookStoreData) => {
         return bookStoreData.books.count();
     }
 
-    function getBook(id) {
-        return bookStoreData.books.find(id);
+    async function getBook(id) {
+        try {
+            const book = await bookStoreData.books.find(id);
+            book.cover = book.cover.toString('base64');
+            return book;
+        } catch {
+            return
+        }
     }
 
     const bookService = () => { };

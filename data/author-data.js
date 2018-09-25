@@ -22,11 +22,17 @@ module.exports = class AuthorData extends Data {
     }
 
     searchAuthors(value) {
-        return this.collection.find({ "name": { $regex: `.*${value}.*`, $options : "i" } }).toArray();
+        return this.collection.find({ "name": { $regex: `.*${value}.*`, $options: "i" } }).toArray();
     }
 
     deleteAuthorsWithoutBooks() {
-        console.log('Deleting authors without books');
         return this.collection.deleteMany({ books: [] });
+    }
+
+    addUserToFavorittedBy(authorId, userId) {
+        return this.collection.update(
+            { _id: authorId },
+            { $addToSet: { favorittedBy: userId } }
+        )
     }
 }

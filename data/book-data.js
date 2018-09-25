@@ -26,4 +26,18 @@ module.exports = class BookData extends Data {
     searchBooks(value) {
         return this.collection.find({ "title": { $regex: `.*${value}.*`, $options : "i" } }).toArray();
     }
+
+    addUserToPurchasedBy(bookId, userId) {
+        return this.collection.update(
+            {_id:bookId},
+            { $addToSet: {purchasedBy: userId } }
+        )
+    }
+
+    addUserToFavorittedBy(bookId, userId) {
+        return this.collection.update(
+            {_id:bookId},
+            { $addToSet: {favorittedBy: userId } }
+        )
+    }
 }

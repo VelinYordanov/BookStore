@@ -1,7 +1,7 @@
 <div id="books">
     {{#each books}}
     <div id="book">
-        <h1>{{title}}</h1>
+        <h1><a href="/books/{{_id}}">{{title}}</a></h1>
         <img src="data:image/png;base64, {{cover}}" alt={{title}}>
         <a href="/authors/{{author.id}}">{{author.name}}</a>
     </div>

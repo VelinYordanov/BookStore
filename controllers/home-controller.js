@@ -1,6 +1,6 @@
 module.exports = function (app, homeService, authentication) {
     app.get('/', async (req, res) => {
-        res.render('home');
+        res.render('home/home');
     });
 
     app.post('/search', async (req, res) => {
@@ -10,11 +10,11 @@ module.exports = function (app, homeService, authentication) {
         }
 
         var booksAndAuthors = await homeService.searchBooksAndAuthors(search);
-        res.render('search', booksAndAuthors);
+        res.render('home/search', booksAndAuthors);
     })
 
     app.get('/login', (req, res) => {
-        res.render('login');
+        res.render('home/login');
     })
 
     app.post('/login', authentication.authenticate('local', {
@@ -23,7 +23,7 @@ module.exports = function (app, homeService, authentication) {
     }));
 
     app.get('/register', (req, res) => {
-        res.render('register');
+        res.render('home/register');
     })
 
     app.post('/register', async (req, res) => {

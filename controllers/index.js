@@ -7,4 +7,8 @@ module.exports = (app, services, authentication) => {
         let controllerService = services.find(x=>(x.name.substring(0, x.name.indexOf('Service')) === controllerName));
         require('./'+controller)(app, controllerService, authentication);
     }
+
+    app.all('*', (req, res) => {
+        res.status(404).render('404');
+    })
 }

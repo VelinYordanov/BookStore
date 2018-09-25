@@ -5,8 +5,8 @@ module.exports = class User {
         this.username = DataValidator.validateString(username, 5, 50);
         this.createPassword(password, repeatPassword, crypto);
         this.purchasedBooks = [];
-        this.favoritedBooks = [];
-        this.favoritedAuthors = [];
+        this.favoriteBooks = [];
+        this.favoriteAuthors = [];
     }
 
     createPassword(password, repeatPassword, crypto) {

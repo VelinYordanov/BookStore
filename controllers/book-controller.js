@@ -15,11 +15,45 @@ module.exports = (app, bookService) => {
 
         const skip = (page - 1) * booksPerPage;
         const books = await bookService.getBooksAsync(skip, booksPerPage);
-        res.render('books', { books });
+        res.render('books/books', { books });
     })
 
-    app.get('/books/:id', async (req, res) => {
+    app.get('/books/:id', async (req, res, next) => {
         const id = req.params.id;
         const book = await bookService.getBook(id);
+        if (!book) {
+            return next();
+        }
+
+        res.render('books/details', book);
+    })
+
+    // app.use('/books', (req, res, next) => {
+    //     console.log(req.user);
+    //     if (!req.user) {
+    //         return next();
+    //     }
+
+    //     res.redirect('/login');
+    // })
+
+    app.get('/books/purchase/:id', async (req, res, next) => {
+        try {
+            const id = req.params.id;
+            console.log(req.session.books);
+            if (!req.session.books) {
+                req.session.books = [];
+            }
+
+            const book = await bookService.getBook(id);
+            if (!book) {
+                return next();
+            }
+
+            req.session.books.push(book);
+            res.status(200).end();
+        } catch {
+            return next();
+        }
     })
 }
