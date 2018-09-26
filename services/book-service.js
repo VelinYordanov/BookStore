@@ -18,7 +18,6 @@ module.exports = (bookStoreData) => {
             book.cover = book.cover.toString('base64');
             return book;
         } catch (err) {
-            console.log(err);
             return
         }
     }

@@ -6,7 +6,7 @@ module.exports = class UserData extends Data {
     }
 
     findUserByUsername(username) {
-        return this.collection.findOne({ _username: username });
+        return this.collection.findOne({ username: username });
     }
 
     addBookToPurchasedBooks(book, userId) {

@@ -12,7 +12,15 @@
             <ul>
                 <li><a href="/books">Books</a></li>
                 <li><a href="/authors">Authors</a></li>
+                <li></li>
                 <li><form action="/search" method="POST"><input type="text" name='search' placeholder="Search books or authors"></form></li>
+                {{#if user}}
+                    <li><span>Hello, {{user.username}}</span></li>
+                    <li><a href="/logout">Log out</a></li>                
+                {{else}}
+                    <li><a href="/register">Register</a></li>
+                    <li><a href="/login">Login</a></li>
+                {{/if}}
             </ul>
         </nav>
     </header>
