@@ -28,32 +28,27 @@ module.exports = (app, bookService) => {
         res.render('books/details', book);
     })
 
-    // app.use('/books', (req, res, next) => {
-    //     console.log(req.user);
-    //     if (!req.user) {
-    //         return next();
-    //     }
-
-    //     res.redirect('/login');
-    // })
-
-    app.get('/books/purchase/:id', async (req, res, next) => {
-        try {
-            const id = req.params.id;
-            console.log(req.session.books);
-            if (!req.session.books) {
-                req.session.books = [];
-            }
-
-            const book = await bookService.getBook(id);
-            if (!book) {
-                return next();
-            }
-
-            req.session.books.push(book);
-            res.status(200).end();
-        } catch {
-            return next();
+    app.get('/books/purchase/:id', async (req, res) => {
+        const id = req.params.id;
+        if (!req.session.bookIds) {
+            req.session.bookIds = [];
         }
+
+        const book = await bookService.getBook(id);
+        if (!book) {
+            return res.status(404).end();
+        }
+
+        if (!req.user) {
+            return res.status(401).end();
+        }
+
+        if (req.session.bookIds.includes(book._id.toString())) {
+            return res.status(200).end();
+        }
+
+        req.session.bookIds.push(book._id.toString());
+        res.status(201).end();
+
     })
 }

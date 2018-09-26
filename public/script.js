@@ -5,15 +5,20 @@ addToCartButton.addEventListener('click', async () => {
     if (isButtonEnabled) {
         try {
             const result = await fetch(`/books/purchase/${bookId}`);
-            if (result.status / 100 === 2) {
-                //success
-            } else {
-                //error
+            console.log(result);
+            if (result.status === 201) {
+                // book added to cart
+            } else if (result.status === 200) {
+                //book already in cart
+            } else if (result.status === 401) {
+                location.replace('/login');
             }
-            
+
             isButtonEnabled = false;
         } catch {
-            console.log("error");
+            // something went wrong
+        } finally {
+            isButtonEnabled = true;
         }
     }
 })

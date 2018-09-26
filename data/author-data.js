@@ -30,9 +30,16 @@ module.exports = class AuthorData extends Data {
     }
 
     addUserToFavorittedBy(authorId, userId) {
-        return this.collection.update(
+        return this.collection.updateOne(
             { _id: authorId },
             { $addToSet: { favorittedBy: userId } }
+        )
+    }
+
+    removeUserFromFavorittedBy(authorId, userId) {
+        return this.collection.updateOne(
+            { _id: authorId },
+            { $pull: { favorittedBy: userId } }
         )
     }
 }

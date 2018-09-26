@@ -10,23 +10,37 @@ module.exports = class UserData extends Data {
     }
 
     addBookToPurchasedBooks(book, userId) {
-        return this.collection.update(
+        return this.collection.updateOne(
             { _id: userId },
             { $addToSet: { purchasedBooks: book } }
         )
     }
 
     addBookToFavorites(book, userId) {
-        return this.collection.update(
+        return this.collection.updateOne(
             { _id: userId },
             { $addToSet: { favoriteBooks: book } }
         )
     }
 
     addAuthorToFavorites(author, userId) {
-        return this.collection.update(
+        return this.collection.updateOne(
             { _id: userId },
             { $addToSet: { favoriteAuthors: author } }
+        )
+    }
+
+    removeAuthorFromFavorites(author, userId) {
+        return this.collection.updateOne(
+            { _id: userId },
+            { $pull: { favoriteAuthors: author } }
+        )
+    }
+
+    removeBookFromFavorites(book, userId) {
+        return this.collection.updateOne(
+            { _id: userId },
+            { $pull: { favoriteBooks: book } }
         )
     }
 }

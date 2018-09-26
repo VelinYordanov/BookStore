@@ -24,20 +24,27 @@ module.exports = class BookData extends Data {
     }
 
     searchBooks(value) {
-        return this.collection.find({ "title": { $regex: `.*${value}.*`, $options : "i" } }).toArray();
+        return this.collection.find({ "title": { $regex: `.*${value}.*`, $options: "i" } }).toArray();
     }
 
     addUserToPurchasedBy(bookId, userId) {
-        return this.collection.update(
-            {_id:bookId},
-            { $addToSet: {purchasedBy: userId } }
+        return this.collection.updateOne(
+            { _id: bookId },
+            { $addToSet: { purchasedBy: userId } }
         )
     }
 
     addUserToFavorittedBy(bookId, userId) {
-        return this.collection.update(
-            {_id:bookId},
-            { $addToSet: {favorittedBy: userId } }
+        return this.collection.updateOne(
+            { _id: bookId },
+            { $addToSet: { favorittedBy: userId } }
+        )
+    }
+
+    removeUserFromFavorittedBy(bookId, userId) {
+        return this.collection.updateOne(
+            { _id: bookId },
+            { $pull: { favorittedBy: userId } }
         )
     }
 }

@@ -17,7 +17,8 @@ module.exports = (bookStoreData) => {
             const book = await bookStoreData.books.find(id);
             book.cover = book.cover.toString('base64');
             return book;
-        } catch {
+        } catch (err) {
+            console.log(err);
             return
         }
     }
