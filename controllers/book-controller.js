@@ -51,4 +51,15 @@ module.exports = (app, bookService) => {
         res.status(201).end();
 
     })
+
+    app.get('/books/:id/favorite', async (req, res) => {
+        if (!req.user) {
+            res.status(401).end();
+        }
+
+        const id = req.params.id;
+        const result = await bookService.favoriteBook(id, req.user.id);
+        console.log(result);
+        res.status(200).end();
+    })
 }

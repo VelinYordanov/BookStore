@@ -22,9 +22,20 @@ module.exports = (bookStoreData) => {
         }
     }
 
+    async function favoriteBook(bookId, userId) {
+        const book = await bookStoreData.books.find(bookId);
+        return await Promise.all(
+            [
+                bookStoreData.books.addUserToFavorittedBy(bookId, userId),
+                bookStoreData.users.addBookToFavorites(book, userId)
+            ]
+        );
+    }
+
     const bookService = () => { };
     bookService.getBooksAsync = getBooksAsync;
     bookService.getAllBooksCount = getAllBooksCount;
     bookService.getBook = getBook;
+    bookService.favoriteBook = favoriteBook;
     return bookService;
 }

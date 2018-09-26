@@ -1,4 +1,4 @@
-var ObjectId = require('mongodb').ObjectId;
+const ObjectId = require('mongodb').ObjectId;
 
 module.exports = class Data {
     constructor(collection) {

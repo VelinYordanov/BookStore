@@ -1,4 +1,5 @@
 var Data = require('./data');
+const ObjectId = require('mongodb').ObjectId;
 
 module.exports = class AuthorData extends Data {
     constructor(collection) {
@@ -31,14 +32,14 @@ module.exports = class AuthorData extends Data {
 
     addUserToFavorittedBy(authorId, userId) {
         return this.collection.updateOne(
-            { _id: authorId },
+            { _id: ObjectId(authorId) },
             { $addToSet: { favorittedBy: userId } }
         )
     }
 
     removeUserFromFavorittedBy(authorId, userId) {
         return this.collection.updateOne(
-            { _id: authorId },
+            { _id: ObjectId(authorId) },
             { $pull: { favorittedBy: userId } }
         )
     }
