@@ -1,0 +1,8 @@
+{{#each books}}
+    <h1>{{title}}</h1>
+    <span>by <a href="authors/{{author.id}}">{{author.name}}</a></span>
+    <img src="data:image/png;base64, {{cover}}" alt={{title}}>
+    <h3>Quantity : {{quantity}}</h3>
+    <h3>{{price}}$</h3>
+{{/each}}
+<h3>{{totalPrice}}$</h3>

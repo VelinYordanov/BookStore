@@ -48,4 +48,13 @@ module.exports = class BookData extends Data {
             { $pull: { favorittedBy: userId } }
         )
     }
+
+    findCartItems(bookIds) {
+        bookIds = bookIds.map(ObjectId);
+
+        return this.collection.find(
+            { _id: { $in: bookIds } },
+            { projection: { title: 1, cover: 1, price: 1, author: 1 } }
+        ).toArray();
+    }
 }
