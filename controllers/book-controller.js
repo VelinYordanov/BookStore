@@ -58,8 +58,7 @@ module.exports = (app, bookService) => {
         }
 
         const id = req.params.id;
-        const result = await bookService.favoriteBook(id, req.user.id);
-        console.log(result);
+        await bookService.favoriteBook(id, req.user.id);
         res.status(200).end();
     })
 }

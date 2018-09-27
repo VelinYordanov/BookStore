@@ -24,10 +24,21 @@ module.exports = (bookStoreData) => {
 
     async function favoriteBook(bookId, userId) {
         const book = await bookStoreData.books.find(bookId);
+        const bookToAdd = { title: book.title, cover: book.cover, author: book.author, id: book._id }
+
+        if (book.favorittedBy.includes(userId)) {
+            return await Promise.all(
+                [
+                    bookStoreData.books.removeUserFromFavorittedBy(bookId, userId),
+                    bookStoreData.users.removeBookFromFavorites(bookToAdd, userId)
+                ]
+            );
+        }
+        
         return await Promise.all(
             [
                 bookStoreData.books.addUserToFavorittedBy(bookId, userId),
-                bookStoreData.users.addBookToFavorites(book, userId)
+                bookStoreData.users.addBookToFavorites(bookToAdd, userId)
             ]
         );
     }

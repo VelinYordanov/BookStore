@@ -17,7 +17,6 @@ module.exports = class UserData extends Data {
         )
     }
 
-    //Needs work
     addBookToFavorites(book, userId) {
         return this.collection.updateOne(
             { _id: ObjectId(userId) },
