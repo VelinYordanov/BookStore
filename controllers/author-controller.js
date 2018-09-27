@@ -27,4 +27,14 @@ module.exports = (app, authorService) => {
 
         res.render('authors/details', author);
     })
+
+    app.post('/authors/:id/favorite', async (req,res) => {
+        if(!req.user) {
+            res.sendStatus(401);
+        }
+
+        const id = req.params.id;
+        await authorService.favoriteAuthor(id, req.user.id);
+        res.sendStatus(200);
+    })
 }

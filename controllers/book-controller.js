@@ -1,6 +1,14 @@
 module.exports = (app, bookService) => {
     const booksPerPage = 15;
 
+    app.post('/books', (req, res, next) => {
+        if (!req.user) {
+            return res.sendStatus(401);
+        }
+
+        next();
+    })
+
     app.get('/books', async (req, res) => {
         var page = req.query.page || 1;
         if (page < 1) {
@@ -28,37 +36,35 @@ module.exports = (app, bookService) => {
         res.render('books/details', book);
     })
 
-    app.get('/books/purchase/:id', async (req, res) => {
-        const id = req.params.id;
-        if (!req.session.bookIds) {
-            req.session.bookIds = [];
+    app.post('/books/:id/purchase', async (req, res) => {
+        console.log(req.body);
+        var { id, quantity } = req.body;
+        quantity = +quantity;
+        if (!(Number.isInteger(quantity) && quantity > 0)) {
+            return res.sendStatus(400);
+        }
+
+        if (!req.session.books) {
+            req.session.books = [];
         }
 
         const book = await bookService.getBook(id);
         if (!book) {
-            return res.status(404).end();
+            return res.sendStatus(404);
         }
 
-        if (!req.user) {
-            return res.status(401).end();
+        if (req.session.books.some(x => x.id === book._id.toString())) {
+            return res.sendStatus(200);
         }
 
-        if (req.session.bookIds.includes(book._id.toString())) {
-            return res.status(200).end();
-        }
-
-        req.session.bookIds.push(book._id.toString());
-        res.status(201).end();
+        req.session.books.push({ id: book._id.toString(), quantity });
+        res.sendStatus(201);
 
     })
 
-    app.get('/books/:id/favorite', async (req, res) => {
-        if (!req.user) {
-            res.status(401).end();
-        }
-
+    app.post('/books/:id/favorite', async (req, res) => {
         const id = req.params.id;
         await bookService.favoriteBook(id, req.user.id);
-        res.status(200).end();
+        res.sendStatus(200);
     })
 }

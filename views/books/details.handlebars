@@ -3,5 +3,10 @@
     <span>by <a href="authors/{{author.id}}">{{author.name}}</a></span>
     <img src="data:image/png;base64, {{cover}}" alt={{title}}>
     <p>{{description}}</p>
+    <label>
+        <span>Quantity</span>
+        <input type="number" id='quantity' value='1' min='1' required>
+    </label>    
     <button id='add-book-to-cart'>Add book to cart</button>
+    <button id='favorite-book'>Favorite this book</button>
 </div>

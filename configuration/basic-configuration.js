@@ -11,6 +11,7 @@ module.exports = (app) => {
     app.set('view engine', 'handlebars');
     app.use(express.static('public'));
     app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(bodyParser.json());
     app.use(session({
         secret: 'big-secret',
         resave: false,
