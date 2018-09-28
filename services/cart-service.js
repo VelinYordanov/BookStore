@@ -1,5 +1,6 @@
 module.exports = (bookStoreData) => {
     async function getCartBooks(books) {
+        books = books || [];
         const cartBooks = await bookStoreData.books.findCartItems(books.map(x => x.id));
         console.log(cartBooks);
         cartBooks.forEach(element => {
