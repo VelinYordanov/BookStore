@@ -38,11 +38,4 @@ module.exports = (app, cartService) => {
         console.log(req.session.books);
         res.sendStatus(200);
     })
-
-    app.post('/cart/edit', async (req, res) => {
-        const { bookId, quantity } = req.body;
-        const bookIndex = res.session.books.findIndex(x => x.id === bookId);
-        req.session.books[bookIndex] = { id: bookId, quantity };
-        res.sendStatus(200);
-    })
 }
