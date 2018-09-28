@@ -1,8 +1,8 @@
 module.exports = (app, bookService) => {
     const booksPerPage = 15;
 
-    app.post('/books', (req, res, next) => {
-        if (!req.user) {
+    app.use('/books', (req, res, next) => {
+        if (!req.user && req.method === 'POST') {
             return res.sendStatus(401);
         }
 

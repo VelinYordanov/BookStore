@@ -10,10 +10,10 @@ module.exports = class UserData extends Data {
         return this.collection.findOne({ username: username });
     }
 
-    addBookToPurchasedBooks(book, userId) {
+    addPurchasedBooks(books, userId) {
         return this.collection.updateOne(
             { _id: ObjectId(userId) },
-            { $addToSet: { purchasedBooks: book } }
+            { $addToSet: { purchasedBooks: { $each: books } } }
         )
     }
 

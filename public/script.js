@@ -30,16 +30,15 @@ function addBookToCart() {
 }
 
 function addBookToFavorites() {
-    addToFavorites(`/books/${id}/favorite`,'favorite-book')
+    addToFavorites(`/books/${id}/favorite`, 'favorite-book')
 }
 
 function addAuthorToFavorites() {
-    addToFavorites(`/authors/${id}/favorite`,'favorite-author')
+    addToFavorites(`/authors/${id}/favorite`, 'favorite-author')
 }
 
 function addToFavorites(url, selector) {
     const favoriteBookButton = document.getElementById(selector);
-    console.log(favoriteBookButton);
     var isButtonEnabled = true;
 
     favoriteBookButton.addEventListener('click', async () => {
@@ -57,6 +56,37 @@ function addToFavorites(url, selector) {
             } finally {
                 isButtonEnabled = true;
             }
+        }
+    })
+}
+
+function removeBookFromCart() {
+    const removeButtons = Array.from(document.getElementsByClassName('remove'));
+    removeButtons.forEach(element => {
+        element.addEventListener('click', async (event) => {
+            const parent = event.target.parentElement;
+            const id = parent.getElementsByClassName('id')[0].value;
+            const result = await doPostRequest('/cart/remove', { bookId: id });
+            if (result.status === 200) {
+                location.reload();
+            } else {
+                //problem
+            }
+        })
+    });
+}
+
+function purchaseBooks() {
+    const purchaseButton = document.getElementById('purchase');
+    purchaseButton.addEventListener('click', async () => {
+        const result = await doPostRequest('/cart', {});
+        console.log(result);
+        if (result.status === 200) {
+            //success
+        } else if (result.status === 400) {
+            //no items in cart
+        } else {
+            //problem
         }
     })
 }
@@ -82,6 +112,17 @@ try {
 
 try {
     addBookToCart();
+} catch {
+
+}
+
+try {
+    purchaseBooks()
+} catch {
+
+}
+try {
+    removeBookFromCart();
 } catch {
 
 }

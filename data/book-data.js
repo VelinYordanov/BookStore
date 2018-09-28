@@ -28,9 +28,9 @@ module.exports = class BookData extends Data {
         return this.collection.find({ "title": { $regex: `.*${value}.*`, $options: "i" } }).toArray();
     }
 
-    addUserToPurchasedBy(bookId, userId) {
-        return this.collection.updateOne(
-            { _id: ObjectId(bookId) },
+    addUserToPurchasedBy(bookIds, userId) {
+        return this.collection.updateMany(
+            { _id: { $in: bookIds } },
             { $addToSet: { purchasedBy: userId } }
         )
     }
