@@ -30,12 +30,8 @@ module.exports = (app, cartService) => {
     })
 
     app.post('/cart/remove', async (req, res) => {
-        console.log(req.body);
-        console.log(req.session.books);
         const { bookId } = req.body;
-        console.log(bookId);
         req.session.books = req.session.books.filter(x => x.id !== bookId);
-        console.log(req.session.books);
         res.sendStatus(200);
     })
 }
