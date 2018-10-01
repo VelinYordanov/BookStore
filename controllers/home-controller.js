@@ -32,7 +32,6 @@ module.exports = function (app, homeService, authentication) {
     })
 
     app.get('/logout', (req, res) => {
-        req.logout();
         req.session.destroy();
         res.redirect('/');
     })

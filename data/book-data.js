@@ -6,22 +6,40 @@ module.exports = class BookData extends Data {
         super(collection);
     }
 
-    findTopBooks(number) {
+    findTopSelledBooks(skip, take) {
         return this.collection.aggregate(
             [
                 {
                     $project: {
-                        _title: 1,
-                        _price: 1,
-                        _author: 1,
-                        _description: 1,
-                        _cover: 1,
-                        rating: { $size: { $ifNull: ["$purchasedBy", []] } }
+                        title: 1,
+                        price: 1,
+                        author: 1,
+                        description: 1,
+                        cover: 1,
+                        sells: { $size: { $ifNull: ["$purchasedBy", []] } }
                     }
                 },
-                { "$sort": { "rating": -1 } }
+                { "$sort": { "sells": -1 } }
             ]
-        ).limit(number).toArray();
+        ).skip(skip).limit(take).toArray();
+    }
+
+    findTopFavorittedBooks(skip, take) {
+        return this.collection.aggregate(
+            [
+                {
+                    $project: {
+                        title: 1,
+                        price: 1,
+                        author: 1,
+                        description: 1,
+                        cover: 1,
+                        favorites: { $size: { $ifNull: ["$favorittedBy", []] } }
+                    }
+                },
+                { "$sort": { "favorites": -1 } }
+            ]
+        ).skip(skip).limit(take).toArray();
     }
 
     searchBooks(value) {

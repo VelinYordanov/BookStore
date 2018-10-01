@@ -1,6 +1,19 @@
 module.exports = (bookStoreData) => {
-    async function getBooksAsync(skip, take) {
-        const books = await bookStoreData.books.findMany(skip, take);
+    const SORTING_OPTIONS =
+        [
+            { name: 'favorites', data: bookStoreData.books.findTopFavorittedBooks.bind(bookStoreData.books) },
+            { name: 'sells', data: bookStoreData.books.findTopSelledBooks.bind(bookStoreData.books) }
+        ];
+        
+    async function getBooksAsync(skip, take, sort) {
+        var books;
+        const option = SORTING_OPTIONS.find(x => x.name === sort);
+        if (option) {
+            books = await option.data(skip, take);
+        } else {
+            books = await bookStoreData.books.findMany(skip, take);
+        }
+
         books.forEach(element => {
             element.cover = element.cover.toString('base64');
         });
@@ -34,7 +47,7 @@ module.exports = (bookStoreData) => {
                 ]
             );
         }
-        
+
         return await Promise.all(
             [
                 bookStoreData.books.addUserToFavorittedBy(bookId, userId),

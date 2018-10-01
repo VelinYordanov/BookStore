@@ -1,5 +1,5 @@
 module.exports = (app, bookService) => {
-    const booksPerPage = 15;
+    const BOOKS_PER_PAGE = 15;
 
     app.use('/books', (req, res, next) => {
         if (!req.user && req.method === 'POST') {
@@ -11,18 +11,20 @@ module.exports = (app, bookService) => {
 
     app.get('/books', async (req, res) => {
         var page = req.query.page || 1;
+        var sort = req.query.sort;
+
         if (page < 1) {
             page = 1;
         }
 
         const totalElements = await bookService.getAllBooksCount();
-        const maxPage = Math.ceil(totalElements / booksPerPage);
+        const maxPage = Math.ceil(totalElements / BOOKS_PER_PAGE);
         if (page > maxPage) {
             page = maxPage;
         }
 
-        const skip = (page - 1) * booksPerPage;
-        const books = await bookService.getBooksAsync(skip, booksPerPage);
+        const skip = (page - 1) * BOOKS_PER_PAGE;
+        const books = await bookService.getBooksAsync(skip, BOOKS_PER_PAGE, sort);
         res.render('books/books', { books });
     })
 
