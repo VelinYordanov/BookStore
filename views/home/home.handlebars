@@ -1,1 +1,9 @@
-<h1>Test</h1>
+{{#each books}}
+    <h1>{{title}}</h1>
+    <h3>{{favorittedBy.length}}</h3>
+{{/each}}
+
+{{#each authors}}
+    <h1>{{name}}</h1>
+    <p>{{bio}}</p>
+{{/each}}

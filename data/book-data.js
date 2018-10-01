@@ -16,6 +16,8 @@ module.exports = class BookData extends Data {
                         author: 1,
                         description: 1,
                         cover: 1,
+                        purchasedBy: 1,
+                        favorittedBy: 1,
                         sells: { $size: { $ifNull: ["$purchasedBy", []] } }
                     }
                 },
@@ -34,6 +36,8 @@ module.exports = class BookData extends Data {
                         author: 1,
                         description: 1,
                         cover: 1,
+                        favorittedBy: 1,
+                        purchasedBy: 1,
                         favorites: { $size: { $ifNull: ["$favorittedBy", []] } }
                     }
                 },

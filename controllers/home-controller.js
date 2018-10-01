@@ -1,6 +1,7 @@
 module.exports = function (app, homeService, authentication) {
     app.get('/', async (req, res) => {
-        res.render('home/home');
+        const topBooksAndUsers = await homeService.getHomeData();
+        res.render('home/home', topBooksAndUsers);
     });
 
     app.post('/search', async (req, res) => {

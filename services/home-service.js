@@ -1,12 +1,12 @@
 const User = require('../data/models/user');
 
 module.exports = function (bookStoreData, crypto) {
-    function findTopBooksAsync() {
-        return bookStoreData.books.findTopBooks(3);
-    }
+    async function getHomeData() {
+        const [books, authors] = await Promise.all([
+            bookStoreData.books.findTopFavorittedBooks(0, 3),
+            bookStoreData.authors.findTopAuthors(0, 3)]);
 
-    function findTopAuthorsAsync() {
-        return bookStoreData.authors.findTopAuthors(3);
+        return { books, authors };
     }
 
     function registerUserAsync(user) {
@@ -32,8 +32,7 @@ module.exports = function (bookStoreData, crypto) {
     }
 
     const homeService = () => { };
-    homeService.findTopBooksAsync = findTopBooksAsync;
-    homeService.findTopAuthorsAsync = findTopAuthorsAsync;
+    homeService.getHomeData = getHomeData;
     homeService.registerUserAsync = registerUserAsync;
     homeService.searchBooksAndAuthors = searchBooksAndAuthors;
     return homeService;
