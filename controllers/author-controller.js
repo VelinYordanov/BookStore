@@ -1,20 +1,21 @@
 module.exports = (app, authorService) => {
-    const authorsPerPage = 15;
+    const AUTHORS_PER_PAGE = 15;
 
     app.get('/authors', async (req, res) => {
         var page = req.query.page || 1;
+        const sort = req.query.sort;
         if (page < 1) {
             page = 1;
         }
 
         const totalElements = await authorService.getAllAuthorsCount();
-        const maxPage = Math.ceil(totalElements / authorsPerPage);
+        const maxPage = Math.ceil(totalElements / AUTHORS_PER_PAGE);
         if (page > maxPage) {
             page = maxPage;
         }
 
-        const skip = (page - 1) * authorsPerPage;
-        const authors = await authorService.getAuthorsAsync(skip, authorsPerPage);
+        const skip = (page - 1) * AUTHORS_PER_PAGE;
+        const authors = await authorService.getAuthorsAsync(skip, AUTHORS_PER_PAGE, sort);
         res.render('authors/authors', { authors });
     })
 
@@ -28,8 +29,8 @@ module.exports = (app, authorService) => {
         res.render('authors/details', author);
     })
 
-    app.post('/authors/:id/favorite', async (req,res) => {
-        if(!req.user) {
+    app.post('/authors/:id/favorite', async (req, res) => {
+        if (!req.user) {
             res.sendStatus(401);
         }
 

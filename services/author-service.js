@@ -1,6 +1,18 @@
 module.exports = bookStoreData => {
-    async function getAuthorsAsync(skip, take) {
-        const authors = await bookStoreData.authors.findMany(skip, take);
+    const SORTING_OPTIONS =
+        [
+            { name: 'favorites', data: bookStoreData.authors.findTopAuthors.bind(bookStoreData.authors) }
+        ]
+
+    async function getAuthorsAsync(skip, take, sort) {
+        var authors;
+        const option = SORTING_OPTIONS.find(x => x.name === sort);
+        if (option) {
+            authors = await option.data(skip, take);
+        } else {
+            authors = await bookStoreData.authors.findMany(skip, take);
+        }
+
         authors.forEach(element => {
             element.picture = element.picture.toString('base64');
         });
@@ -34,7 +46,7 @@ module.exports = bookStoreData => {
                 ]
             );
         }
-        
+
         return await Promise.all(
             [
                 bookStoreData.authors.addUserToFavorittedBy(authorId, userId),

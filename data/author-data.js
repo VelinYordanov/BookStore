@@ -6,20 +6,20 @@ module.exports = class AuthorData extends Data {
         super(collection);
     }
 
-    findTopAuthors(number) {
+    findTopAuthors(skip,take) {
         return this.collection.aggregate(
             [
                 {
                     $project: {
-                        _name: 1,
-                        _picture: 1,
-                        _bio: 1,
+                        name: 1,
+                        picture: 1,
+                        bio: 1,
                         rating: { $size: { $ifNull: ["$favorittedBy", []] } }
                     }
                 },
                 { "$sort": { "rating": -1 } }
             ]
-        ).limit(number).toArray();
+        ).skip(skip).limit(take).toArray();
     }
 
     searchAuthors(value) {
