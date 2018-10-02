@@ -5,7 +5,9 @@ module.exports = function (bookStoreData, crypto) {
         const [books, authors] = await Promise.all([
             bookStoreData.books.findTopFavorittedBooks(0, 3),
             bookStoreData.authors.findTopAuthors(0, 3)]);
-
+        
+        books.forEach(x => x.cover = x.cover.toString('base64'));
+        authors.forEach(x => x.picture = x.picture.toString('base64'));
         return { books, authors };
     }
 

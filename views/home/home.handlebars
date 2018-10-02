@@ -1,9 +1,31 @@
-{{#each books}}
-    <h1>{{title}}</h1>
-    <h3>{{favorittedBy.length}}</h3>
-{{/each}}
+<section id='home'>
+    <h1>Read books every day</h1>
+    <h3>Search books or authors</h3>
+    <form action="/search" method="post">
+        <input class="form-control" type="text" name="search" placeholder="Search" />
+    </form>
+</section>
 
-{{#each authors}}
-    <h1>{{name}}</h1>
-    <p>{{bio}}</p>
-{{/each}}
+<section id="top">
+    <h4>Current top books:</h4>
+    <section id='books-list'>
+        {{#each books}}
+        <article class="book-image">
+            <a href="/books/{{_id}}">
+                <img src="data:image/png;base64, {{cover}}" alt="{{title}}" />
+            </a>
+        </article>
+        {{/each}}
+    </section>
+    <h4>Current top authors</h4>
+    <section id='books-list'>
+        {{#each authors}}
+        <article class="book-image">
+            <small>{{name}}</small>
+            <a href="/authors/{{_id}}">
+                <img src="data:image/png;base64, {{picture}}" alt="{{name}}" />
+            </a>
+        </article>
+        {{/each}}
+    </section>
+</section>
