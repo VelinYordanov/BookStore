@@ -17,18 +17,30 @@
                 <img src="/logo.png" alt="Book Store">
             </a>
             <ul class="navbar-nav ml-auto">
+                {{#if user}}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/profile">Hello, {{user.username}}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/cart">Cart</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
+                    </li>
+                {{else}}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/register">Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">Login</a>
+                    </li>
+                {{/if}}
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Active</a>
+                    <a class="nav-link" href="/books">Books</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Disabled</a>
-                </li>
+                    <a class="nav-link" href="/authors">Authors</a>
+                </li>                
             </ul>
         </nav>
     </header>
