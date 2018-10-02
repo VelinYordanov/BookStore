@@ -1,0 +1,17 @@
+body {
+    background:linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)),url('./header-image.jpeg');
+    background-size: cover;
+    background-position: center;
+}
+
+.nav-item {
+    padding:0px 15px;
+}
+
+.nav-link {
+    font-size: 1.5em;
+}
+
+nav a img {
+    width:150px;
+}
