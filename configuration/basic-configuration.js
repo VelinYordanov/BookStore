@@ -7,7 +7,18 @@ const db = require('../data/db-provider');
 const MongoStore = require('connect-mongo')(session);
 
 module.exports = (app) => {
-    app.engine('handlebars', handlebars({ defaultLayout: 'main' }));
+    const exhbs = handlebars.create({
+        helpers: {
+            pages: function (n, block) {
+                var accum = '';
+                for (var i = 1; i <= n; ++i)
+                    accum += block.fn(i);
+                return accum;
+            }
+        },
+        defaultLayout: 'main'
+    })
+    app.engine('handlebars', exhbs.engine);
     app.set('view engine', 'handlebars');
     app.use(express.static('public'));
     app.use(bodyParser.urlencoded({ extended: true }));

@@ -14,6 +14,7 @@ module.exports = class AuthorData extends Data {
                         name: 1,
                         picture: 1,
                         bio: 1,
+                        favorittedBy:1,
                         rating: { $size: { $ifNull: ["$favorittedBy", []] } }
                     }
                 },

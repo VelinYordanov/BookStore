@@ -16,7 +16,7 @@ module.exports = (app, authorService) => {
 
         const skip = (page - 1) * AUTHORS_PER_PAGE;
         const authors = await authorService.getAuthorsAsync(skip, AUTHORS_PER_PAGE, sort);
-        res.render('authors/authors', { authors });
+        res.render('authors/authors', { authors, maxPage });
     })
 
     app.get('/authors/:id', async (req, res, next) => {

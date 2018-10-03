@@ -1,8 +1,22 @@
-<div id="books">
+
+<section class='big-list'>
     {{#each authors}}
-    <div id="book">
-        <h1><a href="/authors/{{_id}}">{{name}}</a></h1>
-        <img src="data:image/png;base64, {{picture}}" alt={{name}}>
-    </div>
+    <article class='big-list-image'>
+        <h5>{{name}}</h5>
+        <a href="/authors/{{_id}}">
+            <img src="data:image/png;base64, {{picture}}" alt="{{name}}" />
+        </a>
+        <div class="favorites">
+            <i class="far fa-star">{{favorittedBy.length}}</i>
+        </div>
+    </article>
     {{/each}}
-</div>
+</section>
+
+<ul class="pagination">
+    {{#pages maxPage}}
+    <li class="page-item">
+        <a class="page-link" href="/authors?page={{this}}">{{this}}</a>
+    </li>
+    {{/pages}}
+</ul>

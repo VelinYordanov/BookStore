@@ -8,23 +8,29 @@
 
 <section id="top">
     <h4>Current top books:</h4>
-    <section id='books-list'>
+    <section class='list'>
         {{#each books}}
-        <article class="book-image">
+        <article class="image">
             <a href="/books/{{_id}}">
                 <img src="data:image/png;base64, {{cover}}" alt="{{title}}" />
             </a>
+            <div class="favorites">
+                <i class="far fa-star">{{favorittedBy.length}}</i>
+            </div>
         </article>
         {{/each}}
     </section>
     <h4>Current top authors</h4>
-    <section id='books-list'>
+    <section class='list'>
         {{#each authors}}
-        <article class="book-image">
+        <article class="image">
             <small>{{name}}</small>
             <a href="/authors/{{_id}}">
                 <img src="data:image/png;base64, {{picture}}" alt="{{name}}" />
             </a>
+            <div class="favorites">
+                <i class="far fa-star">{{favorittedBy.length}}</i>
+            </div>
         </article>
         {{/each}}
     </section>
