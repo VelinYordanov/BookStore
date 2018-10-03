@@ -1,9 +1,17 @@
-<form action='/register' method='POST'>
-    <label for='username'>Enter username</label>
-    <input type="text" name="username" id='username'>
-    <label for="password">Enter password</label>
-    <input type="password" name='password' id='password'>
-    <label for="repeatPassword">Repeat password</label>
-    <input type="password" name='repeatPassword' id='repeatPassword'>
-    <input type="submit" value="Submit">
-</form>
+<section id="form">
+    <form action="/register" method="POST">
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" name="username" id="username" placeholder="Enter username">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+        </div>
+        <div class="form-group">
+            <label for="repeatPassword">Repeat password</label>
+            <input type="password" class="form-control" id="repeatPassword" name="repeatPassword" placeholder="Repeat password">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</section>
