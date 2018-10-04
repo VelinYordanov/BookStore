@@ -1,9 +1,32 @@
-<div id="bookDetails">
-    <h1>{{name}}</h1>
-    <img src="data:image/png;base64, {{picture}}" alt={{name}}>
-    <p>{{bio}}</p>
-    <button id='favorite-author'>Favorite this author</button>
+<section class="details">
+    <article class="details-image">
+        <img src="data:image/png;base64, {{picture}}" alt={{name}}>          
+    </article>
+    <article class="details-details">
+        <h3>{{name}}</h3>
+        <div>
+            {{#if isFavoritted}}
+                <i id="favorite-author" class="fas fa-star favorite-icon"></i>
+            {{else}}
+                <i id="favorite-author" class="far fa-star favorite-icon"></i>
+            {{/if}}
+            <span>{{favorittedBy.length}}</span>
+        </div>
+    </article>
+    <article class="details-description">
+        <p>{{bio}}</p>   
+    </article>
+</section>
+<div id="author-books">{{name}}'s books:</div>
+<section class='big-list'>
     {{#each books}}
-        <h1>{{title}}</h1>
+    <article class='big-list-image'>
+        <a href="/books/{{_id}}">
+            <img src="data:image/png;base64, {{cover}}" alt="{{title}}" />
+        </a>
+        <div class="favorites">
+            <i class="far fa-star">{{favorittedBy.length}}</i>
+        </div>
+    </article>
     {{/each}}
-</div>
+</section>

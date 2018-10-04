@@ -28,6 +28,9 @@ module.exports = bookStoreData => {
         try {
             const author = await bookStoreData.authors.find(id);
             author.picture = author.picture.toString('base64');
+            author.books.forEach(book => {
+                book.cover = book.cover.toString('base64');
+            })
             return author;
         } catch {
             return
