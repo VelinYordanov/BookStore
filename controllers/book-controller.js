@@ -35,6 +35,12 @@ module.exports = (app, bookService) => {
             return next();
         }
 
+        if(req.user) {
+            if(book.favorittedBy.includes(req.user.id)) {
+                book.isFavoritted = true;
+            }
+        }
+
         res.render('books/details', book);
     })
 

@@ -1,12 +1,27 @@
-<div id="bookDetails">
-    <h1>{{title}}</h1>
-    <span>by <a href="authors/{{author.id}}">{{author.name}}</a></span>
-    <img src="data:image/png;base64, {{cover}}" alt={{title}}>
-    <p>{{description}}</p>
-    <label>
-        <span>Quantity</span>
-        <input type="number" id='quantity' value='1' min='1' required>
-    </label>    
-    <button id='add-book-to-cart'>Add book to cart</button>
-    <button id='favorite-book'>Favorite this book</button>
-</div>
+<section class="details">
+    <article class="details-image">
+        <img src="data:image/png;base64, {{cover}}" alt={{title}}>          
+    </article>
+    <article class="details-details">
+        <h3>{{title}}</h3>
+        <small>by <a href="/authors/{{author.id}}">{{author.name}}</a></small>
+        <div>
+            {{#if isFavoritted}}
+                <i id="favorite-book" class="fas fa-star favorite-icon"></i>
+            {{else}}
+                <i id="favorite-book" class="far fa-star favorite-icon"></i>
+            {{/if}}
+            <span>{{favorittedBy.length}}</span>
+        </div>
+        <h4>ISBN: {{isbn}}</h4>
+        <h4>Price: {{price}}$</h4>        
+        <label>
+            <span>Quantity</span>
+            <input class="form-control" type="number" id='quantity' value='1' min='1' required>
+        </label>        
+        <button id="add-book-to-cart" class="btn btn-success"><i class="fas fa-shopping-cart"></i> Add to cart</button> 
+    </article>
+    <article class="details-description">
+        <p>{{description}}</p>   
+    </article>
+</section>

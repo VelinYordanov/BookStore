@@ -9,6 +9,7 @@ function addBookToCart() {
                 isButtonEnabled = false;
                 try {
                     const result = await doPostRequest(`/books/${id}/purchase`, { id, quantity });
+                    console.log(result);
                     if (result.status === 201) {
                         // book added to cart
                     } else if (result.status === 200) {
@@ -46,6 +47,7 @@ function addToFavorites(url, selector) {
             isButtonEnabled = false;
             try {
                 const result = await doPostRequest(url, { id });
+                console.log(result);
                 if (result.status === 200) {
                     //success
                 } else {
@@ -126,3 +128,4 @@ try {
 } catch {
 
 }
+
