@@ -43,3 +43,18 @@
 .details-description p {
     text-align: justify;
 }
+
+#cart article {
+    margin: 5% auto;
+}
+
+#cart div {
+    text-align: center;
+    padding-bottom:5%;
+}
+
+#cart .remove {
+    width:50%;
+    margin:1% auto;
+    font-size: 3rem;
+}

@@ -69,8 +69,12 @@ function removeBookFromCart() {
             const parent = event.target.parentElement;
             const id = parent.getElementsByClassName('id')[0].value;
             const result = await doPostRequest('/cart/remove', { bookId: id });
+            console.log(result);
             if (result.status === 200) {
-                location.reload();
+                toastr.success('Removed item from cart');
+                var $element = $(event.target.parentElement.parentElement);
+                $element.hide('slow', function(){ $element.remove(); });
+               // location.reload();
             } else {
                 //problem
             }

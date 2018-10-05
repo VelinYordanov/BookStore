@@ -75,8 +75,8 @@ module.exports = class BookData extends Data {
         bookIds = bookIds.map(ObjectId);
 
         return this.collection.find(
-            { _id: { $in: bookIds } },
-            { projection: { title: 1, cover: 1, price: 1, author: 1 } }
+            { _id: { $in: bookIds } }
+            // { projection: { title: 1, cover: 1, price: 1, author: 1, isbn: 1 } }
         ).toArray();
     }
 }

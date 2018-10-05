@@ -1,4 +1,38 @@
-{{#each books}}
+<section id="cart">
+    {{#if books}}
+    {{#each books}}
+        <section class="details">
+            <article class="details-image">
+                <img src="data:image/png;base64, {{cover}}" alt={{title}}>          
+            </article>
+            <article class="details-details">
+                <h3>{{title}}</h3>
+                <small>by <a href="/authors/{{author.id}}">{{author.name}}</a></small>
+                <h4>ISBN: {{isbn}}</h4>
+                <h4>Price: {{price}}$</h4>
+                <h4>Quantity: {{quantity}}</h4>
+                <form action="/cart/remove" method="POST">
+                    <input type="hidden" name='bookId' value={{_id}}>
+                    <button title="Remove from cart" class="btn btn-danger"><i class="fas fa-times"></i></button>
+                </form>
+            </article>
+            <article class="details-description">
+                <p>{{description}}</p>   
+            </article>
+        </section>
+    {{/each}}
+    <div>
+        <h3>Total price: {{totalPrice}}$</h3>
+        <button class="btn btn-success">Purchase books</button>
+    </div>
+    {{else}}
+    <div>
+         <h1>Cart empty</h1>
+    </div>   
+    {{/if}}  
+</section>
+
+{{!-- {{#each books}}
 <div>
     <h1>{{title}}</h1>
     <span>by <a href="authors/{{author.id}}">{{author.name}}</a></span>
@@ -10,4 +44,4 @@
 </div>   
 {{/each}}
 <h3>{{totalPrice}}$</h3>
-<button id='purchase'>Purchase books</button>
+<button id='purchase'>Purchase books</button> --}}

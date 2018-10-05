@@ -32,6 +32,6 @@ module.exports = (app, cartService) => {
     app.post('/cart/remove', async (req, res) => {
         const { bookId } = req.body;
         req.session.books = req.session.books.filter(x => x.id !== bookId);
-        res.sendStatus(200);
+        res.redirect('/cart');
     })
 }
