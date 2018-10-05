@@ -25,6 +25,9 @@ module.exports = (app, authorService) => {
         if (!author) {
             return next();
         }
+        if(req.user) {
+            author.isFavoritted = author.favorittedBy.includes(req.user.id);
+        }        
 
         res.render('authors/details', author);
     })

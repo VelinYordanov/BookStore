@@ -11,11 +11,14 @@ function addBookToCart() {
                     const result = await doPostRequest(`/books/${id}/purchase`, { id, quantity });
                     console.log(result);
                     if (result.status === 201) {
-                        // book added to cart
+                        toastr.success('Added to cart!')
+                        redirect('/books')
                     } else if (result.status === 200) {
-                        //book already in cart
+                        toastr.info('Book already in cart');
+                        redirect('/books')
                     } else if (result.status === 401) {
-                        location.replace('/login');
+                        toastr.error("You need to login to purchase books");
+                        redirect('/login')
                     }
 
                 } catch {
@@ -49,9 +52,20 @@ function addToFavorites(url, selector) {
                 const result = await doPostRequest(url, { id });
                 console.log(result);
                 if (result.status === 200) {
-                    //success
+                    toastr.success("Success");
+                    //console.log(favoriteBookButton.classList.toggle('fas'));
+                    favoriteBookButton.classList.toggle('fas');
+                    favoriteBookButton.classList.toggle('far');
+                    if(favoriteBookButton.classList.contains('fas')) {
+                        document.getElementById('favorites-count').textContent = +document.getElementById('favorites-count').textContent + 1;
+                    } else {
+                        document.getElementById('favorites-count').textContent = +document.getElementById('favorites-count').textContent - 1;
+                    }
+                    //favoriteButton.classList.toggle('far');                    
+                    
                 } else {
-                    //error
+                    toastr.error("You need to register in order to favorite items");
+                    redirect('/login');
                 }
             } catch {
                 //error in sending request
@@ -87,12 +101,12 @@ function purchaseBooks() {
     purchaseButton.addEventListener('click', async () => {
         const result = await doPostRequest('/cart', {});
         console.log(result);
-        if (result.status === 200) {
-            //success
+        if (result.status === 201) {
+            toastr.success("Purchased books!");
         } else if (result.status === 400) {
-            //no items in cart
+            toastr.error("No items in cart")
         } else {
-            //problem
+            toastr.error("Ooops something went wrong, try again later");
         }
     })
 }
@@ -105,6 +119,15 @@ function doPostRequest(url, body) {
             body: JSON.stringify(body)
         });
 }
+
+function redirect(url) {
+    const REDIRECT_TIMEOUT = 0.75 * 1000;
+    setTimeout(() => {
+        console.log('timeout')
+        location.replace(url);
+    }, REDIRECT_TIMEOUT);
+}
+
 try {
     addBookToFavorites();
 } catch {

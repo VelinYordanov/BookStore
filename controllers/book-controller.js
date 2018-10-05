@@ -36,9 +36,7 @@ module.exports = (app, bookService) => {
         }
 
         if(req.user) {
-            if(book.favorittedBy.includes(req.user.id)) {
-                book.isFavoritted = true;
-            }
+           book.favorittedBy = book.favorittedBy.includes(req.user.id);
         }
 
         res.render('books/details', book);

@@ -4,7 +4,7 @@ module.exports = (bookStoreData) => {
             { name: 'favorites', data: bookStoreData.books.findTopFavorittedBooks.bind(bookStoreData.books) },
             { name: 'sells', data: bookStoreData.books.findTopSelledBooks.bind(bookStoreData.books) }
         ];
-        
+
     async function getBooksAsync(skip, take, sort) {
         var books;
         const option = SORTING_OPTIONS.find(x => x.name === sort);
@@ -37,7 +37,7 @@ module.exports = (bookStoreData) => {
 
     async function favoriteBook(bookId, userId) {
         const book = await bookStoreData.books.find(bookId);
-        const bookToAdd = { title: book.title, cover: book.cover, author: book.author, id: book._id }
+        const bookToAdd = { title: book.title, cover: book.cover, author: book.author, id: book._id, favorittedBy: book.favorittedBy }
 
         if (book.favorittedBy.includes(userId)) {
             return await Promise.all(

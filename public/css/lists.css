@@ -61,7 +61,7 @@ img {
 }
 
 .image:hover .favorites {
-    opacity:1;
+    display: block;
 }
 
 #author-books {
