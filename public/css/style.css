@@ -1,12 +1,12 @@
-html {
+html {    
+    min-height: 100%;
+}
+
+body {
     background:linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)),url('../header-image.jpeg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-}
-
-body {
-    background:inherit;
     min-height:100%;
     color:white;
 }

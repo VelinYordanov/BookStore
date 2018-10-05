@@ -2,8 +2,8 @@ var fs = require('fs');
 
 module.exports = (app, services, authentication) => {
     app.use((req, res, next) => {
-        app.locals.user = req.user;
-        app.locals.items = req.session.books ? req.session.books.length : 0;
+        res.locals.user = req.user;
+        res.locals.items = req.session.books ? req.session.books.length : 0;
         next();
     })
 

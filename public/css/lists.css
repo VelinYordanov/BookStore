@@ -29,7 +29,7 @@ img {
 
 .big-list {
     display: grid;
-    grid-template-columns: auto auto auto auto auto;
+    grid-template-columns: 20% 20% 20% 20% 20%;
     margin-bottom:5%;
 }
 
@@ -66,5 +66,9 @@ img {
 
 #author-books {
     margin:5% auto;
+    text-align: center;
+}
+
+#no-results {
     text-align: center;
 }

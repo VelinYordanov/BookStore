@@ -1,4 +1,49 @@
- {{#if books}}
+{{#unless books}}
+    {{#unless authors}}
+        <div id="no-results">
+            <h1>Nothing was found</h1>
+        </div>
+    {{/unless}}
+{{/unless}}
+
+<section id="found-books">
+    {{#if books}}
+    <h1>Found books</h1>
+    <section class='big-list'>
+        {{#each books}}
+        <article class='big-list-image'>
+            <a href="/books/{{_id}}">
+                <img src="data:image/png;base64, {{cover}}" alt="{{title}}" />
+            </a>
+            <div class="favorites">
+                <i class="far fa-star">{{favorittedBy.length}}</i>
+            </div>
+        </article>
+        {{/each}}
+    </section>
+    {{/if}}
+</section>
+
+<section id="found-authors">
+    {{#if authors}}
+    <h3>Favorite authors</h3>
+    <section class='big-list'>
+        {{#each authors}}
+        <article class='big-list-image'>
+            <h5>{{name}}</h5>
+            <a href="/authors/{{_id}}">
+                <img src="data:image/png;base64, {{picture}}" alt="{{name}}" />
+            </a>
+            <div class="favorites">
+                <i class="far fa-star">{{favorittedBy.length}}</i>
+            </div>
+        </article>
+        {{/each}}
+    </section>
+    {{/if}}
+</section>
+ 
+ {{!-- {{#if books}}
 <div id='book-results'>
     {{#each books}}
     <h1>Found books:</h1>
@@ -22,4 +67,4 @@
         </div>
     {{/each}}
 </div>
-{{/if}}
+{{/if}} --}}

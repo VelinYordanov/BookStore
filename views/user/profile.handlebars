@@ -1,17 +1,84 @@
+{{#unless favoriteBooks}}
+    {{#unless favoriteAuthors}}
+        {{#unless purchasedBooks}}
+            <div id="no-results">
+                <h1>No items purchased or favorited!</h1>
+            </div>
+        {{/unless}}
+    {{/unless}}
+{{/unless}}
+
+<section id="favorite-books">
+    {{#if favoriteBooks}}
+    <h1>Favorite books</h1>
+    <section class='big-list'>
+        {{#each favoriteBooks}}
+        <article class='big-list-image'>
+            <a href="/books/{{id}}">
+                <img src="data:image/png;base64, {{cover}}" alt="{{title}}" />
+            </a>
+            <div class="favorites">
+                <i class="far fa-star">{{favorittedBy.length}}</i>
+            </div>
+        </article>
+        {{/each}}
+    </section>
+    {{/if}}
+</section>
+
+<section id="purchased-books">
+    {{#if purchasedBooks}}
+    <h1>Purchased books</h1>
+    <section class='big-list'>
+        {{#each purchasedBooks}}
+        <article class='big-list-image'>
+            <a href="/books/{{id}}">
+                <img src="data:image/png;base64, {{cover}}" alt="{{title}}" />
+            </a>
+            <div class="favorites">
+                <i class="far fa-star">{{favorittedBy.length}}</i>
+            </div>
+        </article>
+        {{/each}}
+    </section>
+    {{/if}}
+</section>
+
+<section id="favoriteAuthors">
+    {{#if favoriteAuthors}}
+    <h3>Favorite authors</h3>
+    <section class='big-list'>
+        {{#each favoriteAuthors}}
+        <article class='big-list-image'>
+            <h5>{{name}}</h5>
+            <a href="/authors/{{id}}">
+                <img src="data:image/png;base64, {{picture}}" alt="{{name}}" />
+            </a>
+            <div class="favorites">
+                <i class="far fa-star">{{favorittedBy.length}}</i>
+            </div>
+        </article>
+        {{/each}}
+    </section>
+    {{/if}}
+</section>
+
+{{!--
 <h1>Favorite books</h1>
 {{#each favoriteBooks}}
-    <h1><a href="/books/{{_id}}">{{title}}</a></h1>
-    <img src="data:image/png;base64, {{cover}}" alt={{title}}>
-    <a href="/authors/{{author.id}}">{{author.name}}</a>
-{{/each}}
-
-{{#each purchasedBooks}}
-    <h1><a href="/books/{{_id}}">{{title}}</a></h1>
-    <img src="data:image/png;base64, {{cover}}" alt={{title}}>
-    <a href="/authors/{{author.id}}">{{author.name}}</a>
-{{/each}}
-
-{{#each favoriteAuthors}}
-    <h1><a href="/authors/{{_id}}">{{name}}</a></h1>
-    <img src="data:image/png;base64, {{picture}}" alt={{name}}>
-{{/each}}
+<h1>
+    <a href="/books/{{_id}}">{{title}}</a>
+</h1>
+<img src="data:image/png;base64, {{cover}}" alt={{title}}>
+<a href="/authors/{{author.id}}">{{author.name}}</a>
+{{/each}} {{#each purchasedBooks}}
+<h1>
+    <a href="/books/{{_id}}">{{title}}</a>
+</h1>
+<img src="data:image/png;base64, {{cover}}" alt={{title}}>
+<a href="/authors/{{author.id}}">{{author.name}}</a>
+{{/each}} {{#each favoriteAuthors}}
+<h1>
+    <a href="/authors/{{_id}}">{{name}}</a>
+</h1>
+<img src="data:image/png;base64, {{picture}}" alt={{name}}> {{/each}} --}}
