@@ -1,7 +1,7 @@
 module.exports = (app, userService) => {
     app.get('/profile', async (req, res) => {
         if (!req.user) {
-            res.redirect('/login');
+            return res.redirect('/login');
         }
 
         const { id } = req.user;
