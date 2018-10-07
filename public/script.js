@@ -12,10 +12,8 @@ function addBookToCart() {
                     console.log(result);
                     if (result.status === 201) {
                         toastr.success('Added to cart!')
-                        redirect('/books')
                     } else if (result.status === 200) {
                         toastr.info('Book already in cart');
-                        redirect('/books')
                     } else if (result.status === 401) {
                         toastr.error("You need to login to purchase books");
                         redirect('/login')
@@ -103,6 +101,7 @@ function purchaseBooks() {
         console.log(result);
         if (result.status === 201) {
             toastr.success("Purchased books!");
+            redirect('/profile');
         } else if (result.status === 400) {
             toastr.error("No items in cart")
         } else {

@@ -27,9 +27,20 @@ module.exports = function (app, homeService, authentication) {
         res.render('home/register');
     })
 
-    app.post('/register', async (req, res) => {
-        await homeService.registerUserAsync(req.body);
-        res.redirect('/');
+    app.post('/register', async (req, res, next) => {
+        const result = await homeService.registerUserAsync(req.body);
+        if(result.insertedCount !== 1) {
+            return res.redirect('/register');
+        }
+
+        const {username, _id} = result.ops[0];
+        req.login({username,_id},err => {
+            if(err) {
+                return next(err);
+            }
+
+            return res.redirect('/');
+        });
     })
 
     app.get('/logout', (req, res) => {

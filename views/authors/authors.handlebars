@@ -1,4 +1,9 @@
-
+<nav id="sort">
+    <ul>
+        <li><a href="/authors">Default sort</a></li>
+        <li><a href="/authors?sort=favorites">Sort by favorites</a></li>
+    </ul>
+</nav>
 <section class='big-list'>
     {{#each authors}}
     <article class='big-list-image'>
@@ -16,7 +21,7 @@
 <ul class="pagination">
     {{#pages maxPage}}
     <li class="page-item">
-        <a class="page-link" href="/authors?page={{this}}">{{this}}</a>
+        <a class="page-link" href="/authors?page={{page}}&sort={{sort}}">{{page}}</a>
     </li>
     {{/pages}}
 </ul>

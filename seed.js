@@ -135,7 +135,7 @@ async function seed() {
             html = await getContent(url);
         } catch {
             console.log(`Problem fetching data from ${url}. Retrying...`);
-            start(url);
+            await start(url);
             return;
         }
 

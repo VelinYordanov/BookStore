@@ -1,4 +1,11 @@
-<section class='big-list'>
+<nav id="sort">
+    <ul>
+        <li><a href="/books">Default sort</a></li>
+        <li><a href="/books?sort=favorites">Sort by favorites</a></li>
+        <li><a href="/books?sort=sells">Sort by sells</a></li>
+    </ul>
+</nav>
+<section class='big-list'>    
     {{#each books}}
     <article class='big-list-image'>
         <a href="/books/{{_id}}">
@@ -10,11 +17,10 @@
     </article>
     {{/each}}
 </section>
-
 <ul class="pagination">
     {{#pages maxPage}}
     <li class="page-item">
-        <a class="page-link" href="/books?page={{this}}">{{this}}</a>
+        <a class="page-link" href="/books?page={{page}}&sort={{sort}}">{{page}}</a>
     </li>
     {{/pages}}
 </ul>

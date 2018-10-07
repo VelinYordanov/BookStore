@@ -32,7 +32,7 @@
     <section class='big-list'>
         {{#each purchasedBooks}}
         <article class='big-list-image'>
-            <a href="/books/{{id}}">
+            <a href="/books/{{_id}}">
                 <img src="data:image/png;base64, {{cover}}" alt="{{title}}" />
             </a>
             <div class="favorites">
@@ -46,7 +46,7 @@
 
 <section id="favoriteAuthors">
     {{#if favoriteAuthors}}
-    <h3>Favorite authors</h3>
+    <h1>Favorite authors</h1>
     <section class='big-list'>
         {{#each favoriteAuthors}}
         <article class='big-list-image'>

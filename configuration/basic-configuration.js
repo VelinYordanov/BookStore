@@ -12,7 +12,7 @@ module.exports = (app) => {
             pages: function (n, block) {
                 var accum = '';
                 for (var i = 1; i <= n; ++i)
-                    accum += block.fn(i);
+                    accum += block.fn({page:i, sort:block.data.root.sort});
                 return accum;
             }
         },

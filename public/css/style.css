@@ -22,3 +22,20 @@ body {
 nav a img {
     width:150px;
 }
+
+#sort {
+    text-align: center;
+}
+
+#sort ul {
+    list-style: none;
+}
+
+#sort ul li {
+    display: inline-block;
+    padding:0 3%;
+}
+
+#sort ul li a {
+    color:white;
+}

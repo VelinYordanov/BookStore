@@ -25,7 +25,7 @@ module.exports = (app, bookService) => {
 
         const skip = (page - 1) * BOOKS_PER_PAGE;
         const books = await bookService.getBooksAsync(skip, BOOKS_PER_PAGE, sort);
-        res.render('books/books', { books, maxPage });
+        res.render('books/books', { books, maxPage, sort });
     })
 
     app.get('/books/:id', async (req, res, next) => {
@@ -36,14 +36,13 @@ module.exports = (app, bookService) => {
         }
 
         if(req.user) {
-           book.favorittedBy = book.favorittedBy.includes(req.user.id);
+           book.isFavoritted = book.favorittedBy.includes(req.user.id);
         }
 
         res.render('books/details', book);
     })
 
     app.post('/books/:id/purchase', async (req, res) => {
-        console.log(req.body);
         var { id, quantity } = req.body;
         quantity = +quantity;
         if (!(Number.isInteger(quantity) && quantity > 0)) {
@@ -65,7 +64,6 @@ module.exports = (app, bookService) => {
 
         req.session.books.push({ id: book._id.toString(), quantity });
         res.sendStatus(201);
-
     })
 
     app.post('/books/:id/favorite', async (req, res) => {
