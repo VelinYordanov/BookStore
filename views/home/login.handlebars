@@ -1,5 +1,5 @@
 <section id="form">
-    <form action="/login" method="POST">
+    <form action="/login" method="POST" id="login-form" onsubmit="return validateLogin();">
         <div class="form-group">
             <label for="username">Username</label>
             <input type="text" class="form-control" name="username" id="username" placeholder="Enter username">
@@ -8,6 +8,9 @@
             <label for="password">Password</label>
             <input type="password" class="form-control" name="password" id="password" placeholder="Password">
         </div>
+        <div>
+            <small id='errors'></small>
+        </div>        
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </section>
