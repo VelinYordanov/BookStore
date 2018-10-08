@@ -1,7 +1,7 @@
 (function validateForms() {
     const maxLength = 50;
     const minLength = 5;
-    const allowedSymbolsRegex = /^\w/;
+    const unallowedSymbolsRegex = /\W/;
     const numberRegex = /[0-9]/;
 
     function checkStringLength(value) {
@@ -24,8 +24,8 @@
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
 
-            const isUsernameValid = checkStringLength(username) && allowedSymbolsRegex.test(username);
-            const isPasswordValid = checkStringLength(password) && allowedSymbolsRegex.test(password) && numberRegex.test(password);
+            const isUsernameValid = checkStringLength(username) && !unallowedSymbolsRegex.test(username);
+            const isPasswordValid = checkStringLength(password) && !unallowedSymbolsRegex.test(password) && numberRegex.test(password);
 
             if (isUsernameValid && isPasswordValid) {
                 document.getElementById('login-form').submit();
@@ -36,7 +36,7 @@
             }
 
             if (!isPasswordValid) {
-                passwordErrorDisplay.innerText = `Password must be between ${minLength} and ${maxLength} symbols long and should contain at least 1 number`
+                passwordErrorDisplay.innerText = `Password must be between ${minLength} and ${maxLength} symbols long, containing letters, digits or _,  and should contain at least 1 number`
             }
         })
     }
@@ -60,8 +60,8 @@
             const password = document.getElementById('password').value;
             const repeatPassword = document.getElementById('repeat-password').value;
 
-            const isUsernameValid = checkStringLength(username) && allowedSymbolsRegex.test(username);
-            const isPasswordValid = checkStringLength(password) && allowedSymbolsRegex.test(password) && numberRegex.test(password);
+            const isUsernameValid = checkStringLength(username) && !unallowedSymbolsRegex.test(username);
+            const isPasswordValid = checkStringLength(password) && !unallowedSymbolsRegex.test(password) && numberRegex.test(password);
             const isRepeatPasswordValid = repeatPassword === password;
 
             if (isUsernameValid && isPasswordValid && isRepeatPasswordValid) {
@@ -84,6 +84,9 @@
 
     function validateSearch() {
         const searchForm = document.getElementById('search-form');
+        if (!searchForm) {
+            return;
+        }
         searchForm.addEventListener('submit', event => {
             const searchErrors = document.getElementById('search-errors');
             searchErrors.innerText = "";

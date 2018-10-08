@@ -1,6 +1,6 @@
 const maxLength = 50;
 const minLength = 5;
-const allowedSymbolsRegex = /^\w/;
+const unallowedSymbolsRegex = /\W/;
 const numberRegex = /[0-9]/;
 
 const validateRegister = user => {
@@ -12,8 +12,8 @@ const validateRegister = user => {
         return false;
     }
 
-    const isUsernameValid = checkStringLength(user.username) && allowedSymbolsRegex.test(user.username);
-    const isPasswordValid = checkStringLength(user.password) && allowedSymbolsRegex.test(user.password) && numberRegex.test(user.password);
+    const isUsernameValid = checkStringLength(user.username) && !unallowedSymbolsRegex.test(user.username);
+    const isPasswordValid = checkStringLength(user.password) && !unallowedSymbolsRegex.test(user.password) && numberRegex.test(user.password);
     const isRepeatPasswordValid = user.repeatPassword === user.password;
     if (!(isUsernameValid && isPasswordValid && isRepeatPasswordValid)) {
         return false;
@@ -31,8 +31,8 @@ const validateLogin = user => {
         return false;
     }
 
-    const isUsernameValid = checkStringLength(user.username) && allowedSymbolsRegex.test(user.username);
-    const isPasswordValid = checkStringLength(user.password) && allowedSymbolsRegex.test(user.password) && numberRegex.test(user.password);
+    const isUsernameValid = checkStringLength(user.username) && !unallowedSymbolsRegex.test(user.username);
+    const isPasswordValid = checkStringLength(user.password) && !unallowedSymbolsRegex.test(user.password) && numberRegex.test(user.password);
     if (!(isUsernameValid && isPasswordValid)) {
         return false;
     }

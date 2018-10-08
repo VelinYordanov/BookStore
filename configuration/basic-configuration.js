@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 const db = require('../data/db-provider');
 const MongoStore = require('connect-mongo')(session);
+const mongoSanitize = require('express-mongo-sanitize');
 
 module.exports = (app) => {
     const exhbs = handlebars.create({
@@ -12,7 +13,7 @@ module.exports = (app) => {
             pages: function (n, block) {
                 var accum = '';
                 for (var i = 1; i <= n; ++i)
-                    accum += block.fn({page:i, sort:block.data.root.sort});
+                    accum += block.fn({ page: i, sort: block.data.root.sort });
                 return accum;
             }
         },
@@ -30,6 +31,8 @@ module.exports = (app) => {
         saveUninitialized: false,
         cookie: { httpOnly: true }
     }))
+
+    app.use(mongoSanitize());    
 
     app.use(passport.initialize());
     app.use(passport.session())
