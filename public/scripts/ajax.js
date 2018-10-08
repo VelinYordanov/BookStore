@@ -29,7 +29,7 @@
                         isButtonEnabled = true;
                     }
                 } else {
-                    console.log('quantity must be positive');
+                    toastr.error('Ooops, something went wrong. Try again later.');
                 }
             }
         })
@@ -71,7 +71,7 @@
                         redirect('/login');
                     }
                 } catch {
-                    //error in sending request
+                    toastr.error('Ooops, something went wrong. Try again later.')
                 } finally {
                     isButtonEnabled = true;
                 }
@@ -111,7 +111,6 @@
     function redirect(url) {
         const REDIRECT_TIMEOUT = 0.75 * 1000;
         setTimeout(() => {
-            console.log('timeout')
             location.replace(url);
         }, REDIRECT_TIMEOUT);
     }
