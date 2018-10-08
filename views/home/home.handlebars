@@ -1,8 +1,11 @@
 <section id='home'>
     <h1>Read books every day</h1>
     <h3>Search books or authors</h3>
-    <form action="/search" method="post">
-        <input class="form-control" type="text" name="search" placeholder="Search" />
+    <form action="/search" method="post" id="search-form">
+        <div class="form-group">
+            <input id="search" class="form-control" type="text" name="search" placeholder="Search" />
+            <small id="search-errors" class="form-text text-white"></small>
+        </div>
     </form>
 </section>
 

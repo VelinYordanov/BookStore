@@ -6,7 +6,7 @@ module.exports = function (app, homeService, authentication) {
 
     app.post('/search', async (req, res) => {
         const { search } = req.body;
-        if (!(search && search.length && (search.length > 3))) {
+        if (!(search && search.length && (search.length >= 3))) {
             return res.redirect('/');
         }
 

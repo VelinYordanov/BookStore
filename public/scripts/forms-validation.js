@@ -5,58 +5,99 @@
     const numberRegex = /[0-9]/;
 
     function checkStringLength(value) {
-        return value.length <= minLength && value.length >= maxLength;
+        return value.length >= minLength && value.length <= maxLength;
     }
 
-    const form = document.getElementById('login-form');
-    form.addEventListener('submit', (event) => {
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
-
-        const isUsernameValid = checkStringLength(username) && allowedSymbolsRegex.test(username);
-        const isPasswordValid = checkStringLength(password) && allowedSymbolsRegex.test(password) && numberRegex.test(password);
-
-        if (isUsernameValid && isPasswordValid) {
-            return true;
+    function validateLogin() {
+        const submitButton = document.getElementById('login-button');
+        if (!submitButton) {
+            return;
         }
 
+        submitButton.addEventListener('click', event => {
+            event.preventDefault();
+            const usernameErrorDisplay = document.getElementById('username-errors');
+            const passwordErrorDisplay = document.getElementById('password-errors');
+            usernameErrorDisplay.innerText = "";
+            passwordErrorDisplay.innerText = "";
 
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
 
-        return false;
-    })
+            const isUsernameValid = checkStringLength(username) && allowedSymbolsRegex.test(username);
+            const isPasswordValid = checkStringLength(password) && allowedSymbolsRegex.test(password) && numberRegex.test(password);
+
+            if (isUsernameValid && isPasswordValid) {
+                document.getElementById('login-form').submit();
+            }
+
+            if (!isUsernameValid) {
+                usernameErrorDisplay.innerText = `Username must be between ${minLength} and ${maxLength} symbols and contain only letters digits and _`
+            }
+
+            if (!isPasswordValid) {
+                passwordErrorDisplay.innerText = `Password must be between ${minLength} and ${maxLength} symbols long and should contain at least 1 number`
+            }
+        })
+    }
+
+    function validateRegister() {
+        const submitButton = document.getElementById('register-button');
+        if (!submitButton) {
+            return;
+        }
+
+        submitButton.addEventListener('click', event => {
+            event.preventDefault();
+            const usernameErrorDisplay = document.getElementById('username-errors');
+            const passwordErrorDisplay = document.getElementById('password-errors');
+            const repeatPasswordErrorDisplay = document.getElementById('repeat-password-errors');
+            usernameErrorDisplay.innerText = "";
+            passwordErrorDisplay.innerText = "";
+            repeatPasswordErrorDisplay.innerText = "";
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const repeatPassword = document.getElementById('repeat-password').value;
+
+            const isUsernameValid = checkStringLength(username) && allowedSymbolsRegex.test(username);
+            const isPasswordValid = checkStringLength(password) && allowedSymbolsRegex.test(password) && numberRegex.test(password);
+            const isRepeatPasswordValid = repeatPassword === password;
+
+            if (isUsernameValid && isPasswordValid && isRepeatPasswordValid) {
+                document.getElementById('register-form').submit();
+            }
+
+            if (!isUsernameValid) {
+                usernameErrorDisplay.innerText = `Username must be between ${minLength} and ${maxLength} symbols and contain only letters digits and _`
+            }
+
+            if (!isPasswordValid) {
+                passwordErrorDisplay.innerText = `Password must be between ${minLength} and ${maxLength} symbols long and should contain at least 1 number`
+            }
+
+            if (!isRepeatPasswordValid) {
+                repeatPasswordErrorDisplay.innerText = 'Repeated password is not the same as the provided password';
+            }
+        })
+    }
+
+    function validateSearch() {
+        const searchForm = document.getElementById('search-form');
+        searchForm.addEventListener('submit', event => {
+            const searchErrors = document.getElementById('search-errors');
+            searchErrors.innerText = "";
+            event.preventDefault();
+            const searched = document.getElementById('search').value;
+            if (searched.length < 3) {
+                searchErrors.innerText = "Must be at least 3 symbols long";
+            } else {
+                searchForm.submit();
+            }
+        })
+    }
+
+    validateLogin();
+    validateRegister();
+    validateSearch();
 }())
-
-const maxLength = 50;
-const minLength = 5;
-const allowedSymbolsRegex = /^\w/;
-    const numberRegex = /[0-9]/;
-
-function validateLogin() {
-    document.getElementById('errors').innerText = "";
-    const errors = [];
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-
-    const isUsernameValid = checkStringLength(username) && allowedSymbolsRegex.test(username);
-    const isPasswordValid = checkStringLength(password) && allowedSymbolsRegex.test(password) && numberRegex.test(password);
-
-    if (isUsernameValid && isPasswordValid) {
-        return true;
-    }
-
-    if(!isUsernameValid) {
-        errors.push('Username must be between 5 and 50 symbols and contain only letters digits and _');
-    }
-
-    if(!isPasswordValid) {
-        errors.push('Password must be between 5 and 50 symbols long and should contain at least 1 number');
-    }
-
-    document.getElementById('errors').innerText = errors.join('\n');
-
-    return false;
-}
-
-function checkStringLength(value) {
-    return value.length >= minLength && value.length <= maxLength;
-}
