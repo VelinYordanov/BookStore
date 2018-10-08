@@ -18,7 +18,13 @@ module.exports = function (app, homeService, authentication) {
         res.render('home/login');
     })
 
-    app.post('/login', authentication.authenticate('local', {
+    app.post('/login', (req, res, next) => {
+        if (!homeService.validateLogin(req.body)) {
+            return res.redirect('/login');
+        }
+
+        return next();
+    }, authentication.authenticate('local', {
         successRedirect: '/',
         failureRedirect: '/login'
     }));
@@ -29,13 +35,17 @@ module.exports = function (app, homeService, authentication) {
 
     app.post('/register', async (req, res, next) => {
         const result = await homeService.registerUserAsync(req.body);
-        if(result.insertedCount !== 1) {
+        if (!result) {
+            res.redirect('/register');
+        }
+
+        if (result.insertedCount !== 1) {
             return res.redirect('/register');
         }
 
-        const {username, _id} = result.ops[0];
-        req.login({username,_id},err => {
-            if(err) {
+        const { username, _id } = result.ops[0];
+        req.login({ username, _id }, err => {
+            if (err) {
                 return next(err);
             }
 

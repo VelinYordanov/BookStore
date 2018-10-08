@@ -1,19 +1,33 @@
 const User = require('../data/models/user');
 
-module.exports = function (bookStoreData, crypto) {
+module.exports = function (bookStoreData, crypto, validator) {
     async function getHomeData() {
         const [books, authors] = await Promise.all([
             bookStoreData.books.findTopFavorittedBooks(0, 3),
             bookStoreData.authors.findTopAuthors(0, 3)]);
-        
+
         books.forEach(x => x.cover = x.cover.toString('base64'));
         authors.forEach(x => x.picture = x.picture.toString('base64'));
         return { books, authors };
     }
 
-    function registerUserAsync(user) {
+    async function registerUserAsync(user) {
+        const isDataValid = validator.validateRegister(user);
+        if (!isDataValid) {
+            return false;
+        }
+
+        const maybeUserWithTheSameName = await bookStoreData.users.findUserByUsername(user.username);
+        if (maybeUserWithTheSameName) {
+            return false;
+        }
+
         const bookStoreUser = new User(user.username, user.password, user.repeatPassword, crypto);
         return bookStoreData.users.add(bookStoreUser);
+    }
+
+    function validateLogin(user) {
+        return validator.validateLogin(user);
     }
 
     async function searchBooksAndAuthors(value) {
@@ -37,5 +51,6 @@ module.exports = function (bookStoreData, crypto) {
     homeService.getHomeData = getHomeData;
     homeService.registerUserAsync = registerUserAsync;
     homeService.searchBooksAndAuthors = searchBooksAndAuthors;
+    homeService.validateLogin = validateLogin;
     return homeService;
 }
