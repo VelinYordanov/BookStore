@@ -13,10 +13,6 @@ module.exports = class Data {
         return this.collection.findOne({ _id: ObjectId(id) });
     }
 
-    findMany(skip, take) {
-        return this.collection.find().skip(skip).limit(take).toArray();
-    }
-
     delete(id) {
         return this.collection.deleteOne({ _id: ObjectId(id) });
     }

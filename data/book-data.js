@@ -1,5 +1,6 @@
 var Data = require('./data');
 const ObjectId = require('mongodb').ObjectId;
+const BOOK_LIST_PROJECTION = { cover: 1, favorittedBy: 1 };
 
 module.exports = class BookData extends Data {
     constructor(collection) {
@@ -11,10 +12,6 @@ module.exports = class BookData extends Data {
             [
                 {
                     $project: {
-                        title: 1,
-                        price: 1,
-                        author: 1,
-                        description: 1,
                         cover: 1,
                         purchasedBy: 1,
                         favorittedBy: 1,
@@ -31,13 +28,8 @@ module.exports = class BookData extends Data {
             [
                 {
                     $project: {
-                        title: 1,
-                        price: 1,
-                        author: 1,
-                        description: 1,
                         cover: 1,
                         favorittedBy: 1,
-                        purchasedBy: 1,
                         favorites: { $size: { $ifNull: ["$favorittedBy", []] } }
                     }
                 },
@@ -47,7 +39,11 @@ module.exports = class BookData extends Data {
     }
 
     searchBooks(value) {
-        return this.collection.find({ "title": { $regex: `.*${value}.*`, $options: "i" } }).toArray();
+        return this.collection.find({ "title": { $regex: `.*${value}.*`, $options: "i" } }, { projection: BOOK_LIST_PROJECTION }).toArray();
+    }
+
+    findMany(skip, take) {
+        return this.collection.find().skip(skip).limit(take).project(BOOK_LIST_PROJECTION).toArray();
     }
 
     addUserToPurchasedBy(bookIds, userId) {
@@ -75,8 +71,8 @@ module.exports = class BookData extends Data {
         bookIds = bookIds.map(ObjectId);
 
         return this.collection.find(
-            { _id: { $in: bookIds } }
-            // { projection: { title: 1, cover: 1, price: 1, author: 1, isbn: 1 } }
+            { _id: { $in: bookIds } },
+            { projection: { title: 1, cover: 1, price: 1, author: 1, isbn: 1 } }
         ).toArray();
     }
 }
