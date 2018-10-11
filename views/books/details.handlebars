@@ -1,27 +1,53 @@
 <section class="details">
     <article class="details-image">
-        <img src="data:image/png;base64, {{cover}}" alt={{title}}>          
+        <img src="data:image/png;base64, {{cover}}" alt={{title}}>
     </article>
     <article class="details-details">
         <h3>{{title}}</h3>
-        <small>by <a href="/authors/{{author.id}}">{{author.name}}</a></small>
+        <small>by
+            <a href="/authors/{{author.id}}">{{author.name}}</a>
+        </small>
         <div>
             {{#if isFavoritted}}
-                <i id="favorite-book" class="fas fa-star favorite-icon"></i>
+            <i id="favorite-book" class="fas fa-star favorite-icon"></i>
             {{else}}
-                <i id="favorite-book" class="far fa-star favorite-icon"></i>
+            <i id="favorite-book" class="far fa-star favorite-icon"></i>
             {{/if}}
             <span id='favorites-count'>{{favorittedBy.length}}</span>
         </div>
         <h4>ISBN: {{isbn}}</h4>
-        <h4>Price: {{price}}$</h4>        
+        <h4>Price: {{price}}$</h4>
         <label>
             <span>Quantity</span>
             <input class="form-control" type="number" id='quantity' value='1' min='1' required>
-        </label>        
-        <button id="add-book-to-cart" class="btn btn-success"><i class="fas fa-shopping-cart"></i> Add to cart</button> 
+        </label>
+        <button id="add-book-to-cart" class="btn btn-success">
+            <i class="fas fa-shopping-cart"></i> Add to cart</button>
     </article>
     <article class="details-description">
-        <p>{{description}}</p>   
+        <p>{{description}}</p>
     </article>
+</section>
+<section id="comments">
+    <form>
+        <div class="form-group">
+            <label for="comment-text">Comment book</label>
+            <textarea class="form-control" id="comment-text" rows="3"></textarea>
+            <input type="hidden" id="book-id" value={{_id}}>
+        </div>
+        <button id="comment-button" class="btn btn-success">Post comment</button>
+    </form>
+    {{#if comments}} {{#each comments}}
+    <div class="media">
+        <img class="align-self-center mr-3" src="data:image/png;base64, {{avatar}}" alt={{username}}>
+        <div class="media-body">
+            <h5 class="mt-0">{{username}}</h5>
+            <p>{{comment}}</p>
+        </div>
+    </div>    
+    {{/each}}
+    <button class="btn btn-info" id="load-comments" page="2">Load more comments</button>
+     {{else}}
+    <h1 id="no-comments">No comments yet. Be the first to comment :)</h1>
+    {{/if}}
 </section>

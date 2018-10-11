@@ -27,10 +27,13 @@ module.exports = (bookStoreData) => {
 
     async function getBook(id) {
         try {
-            const book = await bookStoreData.books.find(id);
+            const book = await bookStoreData.books.findBook(id);
             book.cover = book.cover.toString('base64');
+            book.comments.forEach(x => {
+                x.avatar = x.avatar.toString('base64');
+            })
             return book;
-        } catch (err) {
+        } catch {
             return
         }
     }
@@ -56,10 +59,43 @@ module.exports = (bookStoreData) => {
         );
     }
 
+    async function addCommentToBook(userId, bookId, comment) {
+        if (comment.length > 500 || comment.length < 5) {
+            return false;
+        }
+
+        const user = await bookStoreData.users.find(userId);
+        const commentToAdd = { username: user.username, avatar: user.avatar, comment, id: user._id };
+        await Promise.all(
+            [
+                bookStoreData.books.addCommentToBook(bookId, commentToAdd),
+                bookStoreData.users.addComment(userId, bookId)
+            ]);
+
+        commentToAdd.avatar = commentToAdd.avatar.toString('base64');
+        return commentToAdd;
+    }
+
+    async function loadMoreComments(bookId, skip, take) {
+        const result = await bookStoreData.books.loadComments(bookId, skip, take);
+        result.comments.forEach(comment => {
+            comment.avatar = comment.avatar.toString('base64');
+        })
+
+        return result;
+    }
+
+    function getBookCommentsCount(id) {
+        return bookStoreData.books.getBookCommentsCount(id);
+    }
+
     const bookService = () => { };
     bookService.getBooksAsync = getBooksAsync;
     bookService.getAllBooksCount = getAllBooksCount;
     bookService.getBook = getBook;
     bookService.favoriteBook = favoriteBook;
+    bookService.addCommentToBook = addCommentToBook;
+    bookService.loadMoreComments = loadMoreComments;
+    bookService.getBookCommentsCount = getBookCommentsCount;
     return bookService;
 }

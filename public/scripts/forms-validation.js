@@ -100,7 +100,23 @@
         })
     }
 
+    function profileFileUpload() {
+        const $inputGroup = $('#inputGroupFile');
+        if(!$inputGroup) {
+            return;
+        }
+
+        $('#inputGroupFile').on('change',function(){
+            //get the file name
+            var filePath = $(this).val();
+            const fileName = filePath.split('\\').pop();
+            //replace the "Choose a file" label
+            $(this).next('.custom-file-label').html(fileName);
+        })
+    }
+
     validateLogin();
     validateRegister();
     validateSearch();
+    profileFileUpload();
 }())

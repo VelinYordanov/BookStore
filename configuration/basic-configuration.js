@@ -6,6 +6,7 @@ const passport = require('passport');
 const db = require('../data/db-provider');
 const MongoStore = require('connect-mongo')(session);
 const mongoSanitize = require('express-mongo-sanitize');
+const fileUpload = require('express-fileupload');
 
 module.exports = (app) => {
     const exhbs = handlebars.create({
@@ -19,6 +20,7 @@ module.exports = (app) => {
         },
         defaultLayout: 'main'
     })
+
     app.engine('handlebars', exhbs.engine);
     app.set('view engine', 'handlebars');
     app.use(express.static('public'));
@@ -32,8 +34,11 @@ module.exports = (app) => {
         cookie: { httpOnly: true }
     }))
 
-    app.use(mongoSanitize());    
+    app.use(fileUpload({
+        limits: { fileSize: 300 * 1024 },
+    }));
 
+    app.use(mongoSanitize());
     app.use(passport.initialize());
     app.use(passport.session())
 }

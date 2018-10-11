@@ -40,3 +40,38 @@ nav a img {
 #sort ul li a {
     color:white;
 }
+
+#profile {
+    text-align: center;
+    width:50%;
+    margin:0 auto;
+}
+
+#profile img {
+    width:200px;
+    height:200px;
+}
+
+#profile h1, #profile img, #profile form {
+    margin:5%;
+}
+
+#comments {
+    width:50%;
+    margin: 5% auto;
+    text-align: center;
+}
+
+#comments form {
+    margin: 5% auto;
+}
+
+#comments img {
+    width: 100px;
+    height:100px;
+}
+
+#comments .media {
+    text-align: left;
+    margin:3%;
+}

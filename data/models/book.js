@@ -10,5 +10,6 @@ module.exports = class Book {
         this.cover = DataValidator.validateFile(cover);
         this.favorittedBy = [];
         this.purchasedBy = [];
+        this.comments = [];
     }
 }

@@ -44,4 +44,18 @@ module.exports = class UserData extends Data {
             { $pull: { favoriteBooks: book } }
         )
     }
+
+    addImage(imageBuffer, userId) {
+        return this.collection.updateOne(
+            { _id: ObjectId(userId) },
+            { $set: { avatar: imageBuffer } }
+        )
+    }
+
+    addComment(userId, bookId) {
+        return this.collection.updateOne(
+            { _id: ObjectId(userId) },
+            { $push: { commentedBooks: bookId } }
+        )
+    }
 }

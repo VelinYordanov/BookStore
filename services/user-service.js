@@ -16,11 +16,21 @@ module.exports = bookStoreData => {
         return {
             favoriteBooks: userData.favoriteBooks,
             favoriteAuthors: userData.favoriteAuthors,
-            purchasedBooks: userData.purchasedBooks
+            purchasedBooks: userData.purchasedBooks,
+            user: { username: userData.username, avatar: userData.avatar.toString('base64') }
         };
+    }
+
+    async function addUserImage(image, userId) {
+        if (!(image.mimetype.includes('image') && !image.truncated)) {
+            return false;
+        }
+
+        return bookStoreData.users.addImage(image.data, userId);
     }
 
     const userService = () => { };
     userService.getUserData = getUserData;
+    userService.addUserImage = addUserImage;
     return userService;
 }

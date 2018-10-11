@@ -75,4 +75,38 @@ module.exports = class BookData extends Data {
             { projection: { title: 1, cover: 1, price: 1, author: 1, isbn: 1 } }
         ).toArray();
     }
+
+    addCommentToBook(bookId, comment) {
+        return this.collection.updateOne(
+            { _id: ObjectId(bookId) },
+            { $push: { comments: comment } }
+        )
+    }
+
+    findBook(id) {
+        return this.collection.findOne(
+            { _id: ObjectId(id) },
+            { projection: { comments: { $slice: [0, 5] } } }
+        )
+    }
+
+    loadComments(id, skip, take) {
+        return this.collection.findOne(
+            { _id: ObjectId(id) },
+            { projection: { _id: 1, comments: { $slice: [skip, take] } } }
+        )
+    }
+
+    async getBookCommentsCount(id) {
+        const bookIdsAndCommentLength = await this.collection.aggregate([
+            {
+                $project: {
+                    _id: 1,
+                    numberOfComments: { $size: "$comments" }
+                }
+            }
+        ]).toArray();
+
+        return bookIdsAndCommentLength.find(x => x._id.toString() === id).numberOfComments;
+    }
 }

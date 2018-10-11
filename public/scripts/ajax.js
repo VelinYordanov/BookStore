@@ -99,6 +99,85 @@
         })
     }
 
+    function submitBookComment() {
+        const commentTextArea = document.getElementById('comment-text');
+        const submitButton = document.getElementById('comment-button');
+        const bookIdInput = document.getElementById('book-id');
+        const loadButton = document.getElementById('load-comments');
+
+        if (!(commentTextArea && submitButton && bookIdInput)) {
+            return;
+        }
+
+        submitButton.addEventListener('click', async event => {
+            event.preventDefault();
+            console.log('here')
+            const commentText = commentTextArea.value;
+            if (commentText.length > 500 || commentText.length < 5) {
+                toastr.error("Comment must be between 500 and 5 symbols long");
+                return;
+            } else {
+                const bookId = bookIdInput.value;
+                const url = `/books/${bookId}/comments`;
+                console.log(url);
+                const result = await doPostRequest(`/books/${bookId}/comments`, { comment: commentText });
+                console.log(result);
+                if (result.status === 200) {
+                    const noComments = document.getElementById('no-comments');
+                    if (noComments) {
+                        noComments.parentElement.removeChild(noComments);
+                    }
+
+                    const html = await result.text();
+                    if(loadButton) {
+                        loadButton.insertAdjacentHTML('beforebegin', html);
+                    } else {
+                        const commentSection = document.getElementById('comments');
+                        commentSection.insertAdjacentHTML('beforeend', html);
+                        toastr.success('Comment added');
+                    }
+                    
+                    toastr.success('Comment added');
+                } else if (result.status === 401) {
+                    toastr.error("You need to login in order to comment books");
+                    redirect('/login');
+                } else if (result.status === 400) {
+                    toastr.error('Comment must be between 500 and 5 symbols long');
+                }
+            }
+        })
+    }
+
+    function loadMoreComments() {
+        const loadButton = document.getElementById('load-comments');
+        const bookIdInput = document.getElementById('book-id');
+        if (!(loadButton && bookIdInput)) {
+            return;
+        }
+
+        var isButtonEnabled = true;
+
+        loadButton.addEventListener('click', async () => {
+            if (isButtonEnabled) {
+                isButtonEnabled = false;
+                const currentPage = loadButton.getAttribute('page');
+                const bookId = bookIdInput.value;
+                const result = await fetch(`/books/${bookId}/comments?page=${currentPage}`);
+                const html = await result.text();
+                if (!html) {
+                    toastr.info('No more comments!');
+                    loadButton.parentElement.removeChild(loadButton);
+                    return;
+                }
+
+                loadButton.setAttribute('page', +currentPage + 1);
+                loadButton.insertAdjacentHTML('beforebegin', html);
+                toastr.success('Comment added');
+                isButtonEnabled = true;
+            }
+        })
+    }
+
     function doPostRequest(url, body) {
         return fetch(url,
             {
@@ -119,5 +198,7 @@
     addAuthorToFavorites();
     addBookToCart();
     purchaseBooks();
+    submitBookComment();
+    loadMoreComments();
 }())
 
