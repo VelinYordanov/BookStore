@@ -2,16 +2,16 @@
     <h1>{{user.username}}'s profile</h1>
     <img src="data:image/png;base64, {{user.avatar}}" alt="{{user.username}}" />
     <form action="/profile" method="POST" enctype="multipart/form-data">
-    <div class="input-group">
-        <div class="custom-file">
-            <input type="file" class="custom-file-input" id="inputGroupFile" name="profileImage">
-            <label class="custom-file-label" for="inputGroupFile">Change avatar</label>
+        <div class="input-group">
+            <div class="custom-file">
+                <input type="file" class="custom-file-input" id="inputGroupFile" name="profileImage">
+                <label class="custom-file-label" for="inputGroupFile">Change avatar</label>
+            </div>
+            <div class="input-group-append">
+                <input class="btn btn-outline-secondary text-white" type="submit" value="Upload">
+            </div>
         </div>
-        <div class="input-group-append">
-            <input class="btn btn-outline-secondary text-white" type="submit" value="Upload">
-        </div>
-    </div>
-</form>
+    </form>
 </section>
 
 {{#unless favoriteBooks}} {{#unless favoriteAuthors}} {{#unless purchasedBooks}}
@@ -20,47 +20,53 @@
 </div>
 {{/unless}} {{/unless}} {{/unless}}
 <section id="favorite-books">
-    {{#if favoriteBooks}}
-    <h1>Favorite books</h1>
-    <section class='big-list'>
-        {{#each favoriteBooks}}
-        <article class='big-list-image'>
-            <a href="/books/{{id}}">
-                <img src="data:image/png;base64, {{cover}}" alt="{{title}}" />
-            </a>
-        </article>
-        {{/each}}
-    </section>
-    {{/if}}
+    <div class="center">
+        {{#if favoriteBooks}}
+        <h1>Favorite books</h1>
+        <section class='big-list'>
+            {{#each favoriteBooks}}
+            <article class='big-list-image'>
+                <a href="/books/{{id}}">
+                    <img src="data:image/png;base64, {{cover}}" alt="{{title}}" />
+                </a>
+            </article>
+            {{/each}}
+        </section>
+        {{/if}}
+    </div>
 </section>
 
 <section id="purchased-books">
-    {{#if purchasedBooks}}
-    <h1>Purchased books</h1>
-    <section class='big-list'>
-        {{#each purchasedBooks}}
-        <article class='big-list-image'>
-            <a href="/books/{{_id}}">
-                <img src="data:image/png;base64, {{cover}}" alt="{{title}}" />
-            </a>
-        </article>
-        {{/each}}
-    </section>
-    {{/if}}
+    <div class="center">
+        {{#if purchasedBooks}}
+        <h1>Purchased books</h1>
+        <section class='big-list'>
+            {{#each purchasedBooks}}
+            <article class='big-list-image'>
+                <a href="/books/{{_id}}">
+                    <img src="data:image/png;base64, {{cover}}" alt="{{title}}" />
+                </a>
+            </article>
+            {{/each}}
+        </section>
+        {{/if}}
+    </div>
 </section>
 
 <section id="favoriteAuthors">
-    {{#if favoriteAuthors}}
-    <h1>Favorite authors</h1>
-    <section class='big-list'>
-        {{#each favoriteAuthors}}
-        <article class='big-list-image'>
-            <h5>{{name}}</h5>
-            <a href="/authors/{{id}}">
-                <img src="data:image/png;base64, {{picture}}" alt="{{name}}" />
-            </a>
-        </article>
-        {{/each}}
-    </section>
-    {{/if}}
+    <div class="center">
+        {{#if favoriteAuthors}}
+        <h1>Favorite authors</h1>
+        <section class='big-list'>
+            {{#each favoriteAuthors}}
+            <article class='big-list-image'>
+                <h5>{{name}}</h5>
+                <a href="/authors/{{id}}">
+                    <img src="data:image/png;base64, {{picture}}" alt="{{name}}" />
+                </a>
+            </article>
+            {{/each}}
+        </section>
+        {{/if}}
+    </div>
 </section>

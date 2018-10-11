@@ -7,6 +7,15 @@ module.exports = (app, services, authentication) => {
         next();
     })
 
+    app.use((req, res, next) => {
+        if (req.session.error) {
+            res.locals.error = req.session.error;
+            req.session.error = null;
+        }
+
+        next();
+    })
+
     var controllers = fs.readdirSync(__dirname).filter(x => x.endsWith('-controller.js'));
     for (let controller of controllers) {
         let controllerName = controller.substring(0, controller.indexOf('-'));
@@ -14,7 +23,11 @@ module.exports = (app, services, authentication) => {
         require('./' + controller)(app, controllerService, authentication);
     }
 
-    app.all('*', (req, res) => {
+    app.use((err, req, res, next) => {
+        return res.status(500).render('500');
+    })
+
+    app.use((req, res) => {
         res.status(404).render('404');
     })
 }

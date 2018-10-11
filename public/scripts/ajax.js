@@ -111,15 +111,12 @@
 
         submitButton.addEventListener('click', async event => {
             event.preventDefault();
-            console.log('here')
             const commentText = commentTextArea.value;
             if (commentText.length > 500 || commentText.length < 5) {
                 toastr.error("Comment must be between 500 and 5 symbols long");
                 return;
             } else {
                 const bookId = bookIdInput.value;
-                const url = `/books/${bookId}/comments`;
-                console.log(url);
                 const result = await doPostRequest(`/books/${bookId}/comments`, { comment: commentText });
                 console.log(result);
                 if (result.status === 200) {
@@ -129,14 +126,14 @@
                     }
 
                     const html = await result.text();
-                    if(loadButton) {
+                    if (loadButton) {
                         loadButton.insertAdjacentHTML('beforebegin', html);
                     } else {
                         const commentSection = document.getElementById('comments');
-                        commentSection.insertAdjacentHTML('beforeend', html);
-                        toastr.success('Comment added');
+                        commentSection.insertAdjacentHTML('beforeend', html);                        
                     }
-                    
+
+                    commentTextArea.value = "";
                     toastr.success('Comment added');
                 } else if (result.status === 401) {
                     toastr.error("You need to login in order to comment books");

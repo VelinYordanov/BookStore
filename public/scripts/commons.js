@@ -7,4 +7,9 @@
         toastr.options.closeMethod = 'fadeOut';
         toastr.options.closeDuration = 300;
     }
+
+    const error = document.getElementById('error').value;
+    if(error) {
+        toastr.error(error);
+    }
 }())
