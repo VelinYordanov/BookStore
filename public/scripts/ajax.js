@@ -1,5 +1,6 @@
 (function () {
     const id = location.href.split('/').pop();
+
     function addBookToCart() {
         const addToCartButton = document.getElementById('add-book-to-cart');
         if (!addToCartButton) {
@@ -13,7 +14,10 @@
                 if (Number.isInteger(quantity) && quantity > 0) {
                     isButtonEnabled = false;
                     try {
-                        const result = await doPostRequest(`/books/${id}/purchase`, { id, quantity });
+                        const result = await doPostRequest(`/books/${id}/purchase`, {
+                            id,
+                            quantity
+                        });
                         console.log(result);
                         if (result.status === 201) {
                             toastr.success('Added to cart!')
@@ -55,7 +59,9 @@
             if (isButtonEnabled) {
                 isButtonEnabled = false;
                 try {
-                    const result = await doPostRequest(url, { id });
+                    const result = await doPostRequest(url, {
+                        id
+                    });
                     console.log(result);
                     if (result.status === 200) {
                         toastr.success("Success");
@@ -102,8 +108,7 @@
     function submitBookComment() {
         const commentTextArea = document.getElementById('comment-text');
         const submitButton = document.getElementById('comment-button');
-        const bookIdInput = document.getElementById('book-id');
-        const loadButton = document.getElementById('load-comments');
+        const bookIdInput = document.getElementById('book-id');        
 
         if (!(commentTextArea && submitButton && bookIdInput)) {
             return;
@@ -117,7 +122,9 @@
                 return;
             } else {
                 const bookId = bookIdInput.value;
-                const result = await doPostRequest(`/books/${bookId}/comments`, { comment: commentText });
+                const result = await doPostRequest(`/books/${bookId}/comments`, {
+                    comment: commentText
+                });
                 console.log(result);
                 if (result.status === 200) {
                     const noComments = document.getElementById('no-comments');
@@ -125,12 +132,16 @@
                         noComments.parentElement.removeChild(noComments);
                     }
 
-                    const html = await result.text();
-                    if (loadButton) {
-                        loadButton.insertAdjacentHTML('beforebegin', html);
-                    } else {
-                        const commentSection = document.getElementById('comments');
-                        commentSection.insertAdjacentHTML('beforeend', html);                        
+                    const comments = document.getElementsByClassName('comment');
+                    if (comments.length < 5) {
+                        const html = await result.text();
+                        const loadButton = document.getElementById('load-comments');
+                        if (loadButton) {
+                            loadButton.insertAdjacentHTML('beforebegin', html);
+                        } else {
+                            const commentSection = document.getElementById('comments');
+                            commentSection.insertAdjacentHTML('beforeend', html);
+                        }
                     }
 
                     commentTextArea.value = "";
@@ -176,12 +187,13 @@
     }
 
     function doPostRequest(url, body) {
-        return fetch(url,
-            {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(body)
-            });
+        return fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        });
     }
 
     function redirect(url) {
@@ -198,4 +210,3 @@
     submitBookComment();
     loadMoreComments();
 }())
-
