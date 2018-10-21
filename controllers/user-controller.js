@@ -22,6 +22,7 @@ module.exports = (app, userService) => {
                 }
             }
 
+            req.session.error = "The avatar must be an image with max size 300kB."
             return res.redirect('/profile');
         } catch (err) {
             return next(err);
