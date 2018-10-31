@@ -46,7 +46,8 @@ async function seed() {
         const url = ROOT_URL + href;
         try {
             var bookHtml = await getContent(url);
-        } catch {
+        } catch(err) {
+            console.log(err);
             return;
         }
 
@@ -61,7 +62,8 @@ async function seed() {
         var bookHtml;
         try {
             bookHtml = await getContent(url);
-        } catch {
+        } catch(err) {
+            console.log(err);
             return;
         }
 
@@ -78,15 +80,18 @@ async function seed() {
         var bookCover;
         try {
             bookCover = await getImage(bookCoverUrl);
-        } catch {
+        } catch(err) {
+            console.log(err);
             return;
         }
 
         try {
             const book = new Book(bookTitle, bookDescription, 30, { id: author._id, name: author.name }, isbn, bookCover);
-            author.books.push(book);
-            await Promise.all([data.authors.update(author._id, author), data.books.add(book)]);
-        } catch {
+            const addedBook = (await data.books.add(book)).ops[0];
+            author.books.push(addedBook);
+            await data.authors.update(author._id, author);
+        } catch(err) {
+            console.log(err);
             return;
         }
     }
@@ -96,7 +101,8 @@ async function seed() {
         var authorHtml;
         try {
             authorHtml = await getContent(url);
-        } catch {
+        } catch(err) {
+            console.log(err);
             return;
         }
 
@@ -112,7 +118,8 @@ async function seed() {
         var authorImage;
         try {
             authorImage = await getImage(authorImageUrl);
-        } catch {
+        } catch(err) {
+            console.log(err);
             return;
         }
 
@@ -133,8 +140,9 @@ async function seed() {
         var html;
         try {
             html = await getContent(url);
-        } catch {
+        } catch(err) {
             console.log(`Problem fetching data from ${url}. Retrying...`);
+            console.log(err);
             await start(url);
             return;
         }

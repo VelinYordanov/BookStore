@@ -43,12 +43,12 @@ module.exports = (app, authorService) => {
     app.post('/authors/:id/favorite', async (req, res, next) => {
         try {
             if (!req.user) {
-                res.sendStatus(401);
+                return res.sendStatus(401);
             }
 
             const id = req.params.id;
             await authorService.favoriteAuthor(id, req.user.id);
-            res.sendStatus(200);
+            return res.sendStatus(200);
         } catch (err) {
             return next(err);
         }
